@@ -21,6 +21,20 @@
     --shadow-glow: rgba(0, 255, 65, 0.3);
     --shadow-cyber: rgba(157, 78, 221, 0.2);
     
+    /* Spacing System (8px Grid) */
+    --spacing-xs: 0.5rem;   /* 8px */
+    --spacing-sm: 1rem;     /* 16px */
+    --spacing-md: 1.5rem;   /* 24px */
+    --spacing-lg: 2rem;     /* 32px */
+    --spacing-xl: 3rem;     /* 48px */
+    --spacing-xxl: 4rem;    /* 64px */
+    
+    /* Layout Variables */
+    --content-padding: var(--spacing-md); /* 24px > 20px */
+    --module-spacing: var(--spacing-lg);  /* 32px > 30px */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    
     /* 字体 */
     --font-mono: 'Fira Code', 'Share Tech Mono', 'Courier New', monospace;
     --font-primary: 'Fira Code', monospace;
@@ -41,7 +55,7 @@ body {
     font-family: var(--font-primary);
     background: var(--dark-bg);
     color: var(--text-primary);
-    line-height: 1.6;
+    line-height: 1.5;
     overflow-x: hidden;
     position: relative;
 }
@@ -96,7 +110,8 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--primary-green);
     text-shadow: 0 0 10px var(--shadow-glow);
     position: relative;
-    margin-bottom: 1.5rem;
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
 }
 
 h1 {
@@ -210,7 +225,7 @@ a:hover::before {
     text-transform: uppercase;
     letter-spacing: 1px;
     position: relative;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1rem; /* Increased to ensure 48px height */
     border: 1px solid transparent;
     transition: all var(--transition-normal);
 }
@@ -227,23 +242,23 @@ a:hover::before {
 .main-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: var(--spacing-xl) var(--content-padding);
     position: relative;
 }
 
 /* 文章卡片黑客风格 */
-.post-preview {
+.post-preview, .post-card {
     background: var(--dark-bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 0;
-    padding: 2rem;
-    margin-bottom: 2rem;
+    border-radius: var(--border-radius-sm);
+    padding: var(--content-padding);
+    margin-bottom: var(--module-spacing);
     position: relative;
     overflow: hidden;
     transition: all var(--transition-normal);
 }
 
-.post-preview::before {
+.post-preview::before, .post-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -257,13 +272,13 @@ a:hover::before {
     transition: left var(--transition-slow);
 }
 
-.post-preview:hover {
+.post-preview:hover, .post-card:hover {
     border-color: var(--primary-green);
     box-shadow: 0 0 20px var(--shadow-glow);
     transform: translateY(-2px);
 }
 
-.post-preview:hover::before {
+.post-preview:hover::before, .post-card:hover::before {
     left: 100%;
 }
 
@@ -371,8 +386,9 @@ blockquote::before {
 .post {
     background: var(--dark-bg-card);
     border: 1px solid var(--border-color);
-    border-radius: 0;
-    padding: 3rem;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--module-spacing);
     position: relative;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
@@ -458,11 +474,17 @@ blockquote::before {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
+    :root {
+        --content-padding: 1.25rem; /* 20px for mobile */
+        --module-spacing: 2rem; /* 32px */
+        --spacing-xl: 2rem;
+    }
+
     h1 { font-size: 2rem; }
     h2 { font-size: 1.5rem; }
     
     .post {
-        padding: 2rem 1rem;
+        padding: var(--content-padding);
     }
     
     .post-title {

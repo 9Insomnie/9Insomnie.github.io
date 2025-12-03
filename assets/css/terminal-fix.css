@@ -7,7 +7,7 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-    margin: 1.5rem 0;
+    margin: var(--module-spacing) 0;
     font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
     font-size: 0.9rem;
     line-height: 1.4;
