@@ -28,7 +28,7 @@ permalink: /about/
             
             <div class="terminal-content">
                 <div class="terminal-line">
-                    <span class="prompt">root@hacker-blog</span>
+                    <span class="prompt">root@n0irx-blog</span>
                     <span class="separator">:</span>
                     <span class="path">~/system</span>
                     <span class="prompt-symbol">$</span>
@@ -141,7 +141,7 @@ permalink: /about/
                 </div>
 
                 <div class="terminal-line">
-                    <span class="prompt">root@hacker-blog</span>
+                    <span class="prompt">root@n0irx-blog</span>
                     <span class="separator">:</span>
                     <span class="path">~/system</span>
                     <span class="prompt-symbol">$</span>

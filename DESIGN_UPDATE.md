@@ -1,7 +1,7 @@
 # Design Update Documentation
 
 ## Overview
-This document details the design updates applied to the Hacker Blog theme to improve layout, visual hierarchy, and responsiveness.
+This document details the design updates applied to the n0irx Blog theme to improve layout, visual hierarchy, and responsiveness.
 
 ## 1. Spacing System (8px Grid)
 We have introduced a consistent spacing system based on an 8px grid. This ensures visual harmony and scalability.

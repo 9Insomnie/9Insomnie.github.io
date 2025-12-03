@@ -293,7 +293,7 @@ pre:hover .code-copy-btn {
 }
 
 .code-terminal::before {
-    content: 'user@hacker-blog:~$ ' !important;
+    content: 'user@n0irx-blog:~$ ' !important;
     color: #00ff41 !important;
     font-weight: 600 !important;
 }

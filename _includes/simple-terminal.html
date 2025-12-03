@@ -76,7 +76,7 @@
             </div>
             <div class="terminal-prompt">
                 <span class="prompt-text">sliver ></span>
-                <span class="cursor">|</span>
+                <input type="text" id="sliver-input" class="terminal-input" autocomplete="off" spellcheck="false" autofocus>
             </div>
         </div>
 
@@ -101,8 +101,9 @@
 <style>
 /* Sliver Demo 专用样式 */
 .sliver-terminal {
-    margin: 2rem auto;
-    max-width: 800px;
+    margin: var(--space-lg, 2rem) 0;
+    width: 100%;
+    max-width: 100%;
     font-family: 'Fira Code', monospace;
 }
 
@@ -337,6 +338,25 @@
     }
 }
 
+/* CLI Input Style */
+.terminal-input {
+    background: transparent;
+    border: none;
+    color: #e0e0e0;
+    font-family: 'Fira Code', monospace;
+    font-size: 1rem;
+    width: 100%;
+    outline: none;
+    margin-left: 8px;
+    caret-color: #00ff41;
+}
+
+.terminal-prompt {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+}
+
 @keyframes transmit-vertical {
     0% { top: 0; opacity: 0; }
     10% { opacity: 1; }
@@ -350,6 +370,94 @@ const sliverDemo = {
     state: 'idle', // idle, generating, generated, delivering, infected
     logs: document.querySelector('.sliver-logs'),
     
+    init: function() {
+        this.initCLI();
+        this.log('Welcome to Sliver C2. Type "help" for commands.', 'system');
+    },
+
+    initCLI: function() {
+        const input = document.getElementById('sliver-input');
+        if (!input) return;
+        
+        // Focus input when clicking anywhere in terminal content
+        document.querySelector('.terminal-content').addEventListener('click', () => {
+            input.focus();
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = input.value.trim();
+                if (cmd) {
+                    this.log(`sliver > ${cmd}`, 'command');
+                    this.processCommand(cmd);
+                } else {
+                    this.log(`sliver >`, 'command');
+                }
+                input.value = '';
+                
+                // Auto-scroll to bottom
+                const logs = document.querySelector('.terminal-content');
+                logs.scrollTop = logs.scrollHeight;
+            }
+        });
+    },
+
+    processCommand: function(cmdString) {
+        const args = cmdString.split(/\s+/);
+        const cmd = args[0].toLowerCase();
+        
+        switch(cmd) {
+            case 'generate':
+                this.generateImplant(args.slice(1));
+                break;
+            case 'deliver':
+                this.deliverPayload();
+                break;
+            case 'execute':
+                this.executeCommand(args.slice(1));
+                break;
+            case 'reset':
+                this.reset();
+                break;
+            case 'clear':
+            case 'cls':
+                document.querySelector('.sliver-logs').innerHTML = '';
+                break;
+            case 'help':
+            case '?':
+                this.showHelp();
+                break;
+            case 'test':
+                this.runTests();
+                break;
+            default:
+                this.log(`Command not found: ${cmd}. Type 'help' for usage.`, 'error');
+        }
+    },
+
+    showHelp: function() {
+        const help = [
+            "Sliver C2 Command Line Interface v1.5.42",
+            "----------------------------------------",
+            "Usage: <command> [arguments]",
+            "",
+            "Core Commands:",
+            "  generate [opts]  Generate implant payload (e.g., --mtls 1.2.3.4)",
+            "  deliver          Deliver payload to target",
+            "  execute [cmd]    Execute command on target (e.g., whoami, ps)",
+            "  reset            Reset simulation state",
+            "",
+            "Utility:",
+            "  clear            Clear terminal screen",
+            "  help             Show this help message",
+            "  test             Run self-diagnostic tests",
+            "",
+            "Workflow:",
+            "  1. generate -> 2. deliver -> 3. execute"
+        ];
+        help.forEach(line => this.log(line, 'system'));
+    },
+
     log: function(msg, type = 'info') {
         const logs = document.querySelector('.sliver-logs');
         if (!logs) return;
@@ -359,17 +467,30 @@ const sliverDemo = {
         
         // 获取当前时间
         const time = new Date().toLocaleTimeString('en-US', { hour12: false });
-        entry.textContent = `[${time}] ${msg}`;
+        
+        // Don't add timestamp for raw system messages if preferred, but keeping for consistency
+        if (type === 'command') {
+            entry.textContent = msg; // Command prompt already has style
+        } else {
+            entry.textContent = `[${time}] ${msg}`;
+        }
         
         logs.appendChild(entry);
-        logs.scrollTop = logs.scrollHeight;
+        
+        // Scroll parent
+        const content = document.querySelector('.terminal-content');
+        if (content) content.scrollTop = content.scrollHeight;
     },
     
-    generateImplant: function() {
-        if (this.state !== 'idle') return;
+    generateImplant: function(args = []) {
+        if (this.state !== 'idle') {
+             this.log('[!] System not idle. Please reset first.', 'warning');
+             return;
+        }
         this.state = 'generating';
         
-        this.log('generate --mtls 192.168.1.5 --os windows --arch amd64', 'command');
+        const opts = args.length > 0 ? args.join(' ') : '--mtls 192.168.1.5 --os windows --arch amd64';
+        this.log(`[*] Configuration: ${opts}`, 'info');
         this.log('[*] Compiling implant (this may take a minute)...');
         
         setTimeout(() => {
@@ -393,11 +514,11 @@ const sliverDemo = {
         }
         this.state = 'delivering';
         
-        this.log('Sending payload to target...', 'command');
+        this.log('Sending payload to target...', 'info');
         
         // 启动传输动画
         const packet = document.querySelector('.packet-flow');
-        packet.classList.add('transmitting');
+        if (packet) packet.classList.add('transmitting');
         
         setTimeout(() => {
             this.log('[*] Payload delivered successfully');
@@ -416,55 +537,131 @@ const sliverDemo = {
         this.log('[*] Active session: BRONZE_EAGLE (9a7b8c)', 'info');
         
         // 更新UI状态
-        document.querySelector('.victim-panel').classList.add('active');
-        const status = document.querySelector('.victim-panel .status');
-        status.textContent = 'COMPROMISED';
-        status.className = 'status compromised';
+        const victimPanel = document.querySelector('.victim-panel');
+        if (victimPanel) {
+            victimPanel.classList.add('active');
+            const status = victimPanel.querySelector('.status');
+            if (status) {
+                status.textContent = 'COMPROMISED';
+                status.className = 'status compromised';
+            }
+        }
         
-        document.querySelector('.implant-count').textContent = '1';
-        document.querySelector('.process.hidden').style.display = 'block';
+        const count = document.querySelector('.implant-count');
+        if (count) count.textContent = '1';
         
-        document.querySelector('.packet-flow').style.animationDuration = '0.5s'; // 加快心跳包
+        const hiddenProc = document.querySelector('.process.hidden');
+        if (hiddenProc) hiddenProc.style.display = 'block';
+        
+        const packet = document.querySelector('.packet-flow');
+        if (packet) packet.style.animationDuration = '0.5s'; // 加快心跳包
     },
     
-    executeCommand: function() {
+    executeCommand: function(args = []) {
         if (this.state !== 'infected') {
             this.log('[!] No active session! Target not compromised.', 'error');
             return;
         }
         
+        const cmdInput = args.length > 0 ? args.join(' ') : null;
+
         const commands = [
             { cmd: 'whoami', out: 'NT AUTHORITY\\SYSTEM' },
             { cmd: 'ps', out: 'Process List: explorer.exe (1240), lsass.exe (644)...' },
             { cmd: 'getprivs', out: 'SeDebugPrivilege: Enabled' },
-            { cmd: 'screenshot', out: '[+] Screenshot saved to /loot/screen_1.png' }
+            { cmd: 'screenshot', out: '[+] Screenshot saved to /loot/screen_1.png' },
+            { cmd: 'shell', out: '[*] Starting interactive shell...' },
+            { cmd: 'ls', out: 'Directory listing of C:\\Windows\\System32' }
         ];
         
-        const randomCmd = commands[Math.floor(Math.random() * commands.length)];
+        let selected;
+        if (cmdInput) {
+            // Find matching command or generic response
+            selected = commands.find(c => c.cmd === cmdInput) || { cmd: cmdInput, out: `[+] Executed '${cmdInput}' (output suppressed)` };
+        } else {
+            selected = commands[Math.floor(Math.random() * commands.length)];
+        }
         
-        this.log(`sliver (BRONZE_EAGLE) > ${randomCmd.cmd}`, 'command');
+        if (!cmdInput) this.log(`Running random command: ${selected.cmd}`, 'info');
+        
         setTimeout(() => {
-            this.log(randomCmd.out, 'info');
+            this.log(selected.out, 'info');
         }, 600);
     },
     
     reset: function() {
         this.state = 'idle';
         const logs = document.querySelector('.sliver-logs');
-        logs.innerHTML = '';
+        if (logs) logs.innerHTML = '';
         this.log('[server] System reset. Ready.', 'system');
         
         // 重置UI
         document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-        document.querySelector('.packet-flow').classList.remove('transmitting');
+        const packet = document.querySelector('.packet-flow');
+        if (packet) {
+            packet.classList.remove('transmitting');
+            packet.style.animationDuration = '1.5s';
+        }
         
         const status = document.querySelector('.victim-panel .status');
-        status.textContent = 'CLEAN';
-        status.className = 'status secure';
+        if (status) {
+            status.textContent = 'CLEAN';
+            status.className = 'status secure';
+        }
         
-        document.querySelector('.implant-count').textContent = '0';
-        document.querySelector('.process.hidden').style.display = 'none';
-        document.querySelector('.packet-flow').style.animationDuration = '1.5s';
+        const count = document.querySelector('.implant-count');
+        if (count) count.textContent = '0';
+        
+        const hiddenProc = document.querySelector('.process.hidden');
+        if (hiddenProc) hiddenProc.style.display = 'none';
+    },
+
+    runTests: function() {
+        this.log('--- Running Unit Tests ---', 'system');
+        let passed = 0;
+        let total = 0;
+
+        const assert = (condition, name) => {
+            total++;
+            if (condition) {
+                this.log(`[PASS] ${name}`, 'success');
+                passed++;
+            } else {
+                this.log(`[FAIL] ${name}`, 'error');
+            }
+        };
+
+        // Test 1: Initial State
+        this.reset();
+        assert(this.state === 'idle', 'Initial state is idle');
+
+        // Test 2: Generate Command
+        this.generateImplant(['--test']);
+        assert(this.state === 'generating', 'State moves to generating');
+
+        // Simulate completion
+        setTimeout(() => {
+            assert(this.state === 'generated', 'State moves to generated (async)');
+            
+            // Test 3: Deliver
+            this.deliverPayload();
+            assert(this.state === 'delivering', 'State moves to delivering');
+            
+            setTimeout(() => {
+                 assert(this.state === 'infected', 'State moves to infected (async)');
+                 
+                 // Test 4: Execute
+                 this.executeCommand(['whoami']);
+                 // No state change for execute, just check no error
+                 
+                 this.log(`Tests Completed: ${passed}/${total} passed.`, 'system');
+            }, 1600);
+        }, 2100);
     }
 };
+
+// Initialize CLI when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    sliverDemo.init();
+});
 </script>

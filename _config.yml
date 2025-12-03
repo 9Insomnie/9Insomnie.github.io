@@ -1,6 +1,6 @@
 # Site settings
-title: "Hacker Blog"
-description: "[root@hacker-blog ~]# ./share-knowledge.sh"
+title: "n0irx Blog"
+description: "[root@n0irx-blog ~]# ./share-knowledge.sh"
 baseurl: ""
 url: "https://9insomnie.github.io"
 author: "9Insomnie"

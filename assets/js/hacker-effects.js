@@ -301,7 +301,7 @@ class TerminalCommand {
     
     typeCommand(command, callback) {
         const prompt = document.createElement('div');
-        prompt.innerHTML = '<span style="color: #00ff41;">user@hacker:~$ </span>';
+        prompt.innerHTML = '<span style="color: #00ff41;">user@n0irx:~$ </span>';
         this.container.appendChild(prompt);
         
         let i = 0;
@@ -329,7 +329,7 @@ class TerminalCommand {
     getCommandOutput(command) {
         const outputs = {
             'ls': 'blog-posts  assets  _layouts  _includes',
-            'pwd': '/home/user/hacker-blog',
+            'pwd': '/home/user/n0irx-blog',
             'whoami': 'cyber-punk',
             'date': new Date().toLocaleString(),
             'echo "Hello World"': 'Hello World'
