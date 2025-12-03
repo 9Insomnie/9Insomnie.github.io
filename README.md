@@ -1,28 +1,52 @@
-# 我的个人博客 📝
+# 🕶️ Hacker Blog - 黑客风格博客
 
-> 使用 Jekyll 和 GitHub Pages 搭建的个人博客
+> 一个充满赛博朋克风格的 Jekyll 博客主题
+
+[![Build Status](https://github.com/9Insomnie/9Insomnie.github.io/workflows/Build%20and%20deploy%20Jekyll%20site%20to%20GitHub%20Pages/badge.svg)](https://github.com/9Insomnie/9Insomnie.github.io/actions)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Hacker Theme](https://img.shields.io/badge/theme-hacker-green.svg)](https://github.com/9Insomnie/9Insomnie.github.io)
 
 [![Build Status](https://github.com/9Insomnie/9Insomnie.github.io/workflows/Build%20and%20deploy%20Jekyll%20site%20to%20GitHub%20Pages/badge.svg)](https://github.com/9Insomnie/9Insomnie.github.io/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-## 🌟 博客特色
+## 🌟 黑客主题特色
 
-- **响应式设计** - 完美适配桌面、平板和手机设备
-- **SEO优化** - 良好的搜索引擎优化，支持自动生成 sitemap
-- **快速加载** - 静态页面，加载速度快
-- **深色模式** - 支持深色/浅色主题切换
-- **代码高亮** - 支持多种编程语言的语法高亮
-- **评论系统** - 集成评论功能（可配置）
-- **社交分享** - 支持文章分享到各大社交平台
+### 🎨 视觉特效
+- **矩阵雨背景** - 经典的矩阵代码雨动画效果
+- **故障艺术(Glitch Art)** - 标题和元素的故障风格动画
+- **终端风格** - 模拟黑客终端的界面设计
+- **赛博朋克配色** - 霓虹绿、紫色、蓝色的黑客配色方案
+- **等宽字体** - 使用编程字体营造技术氛围
+
+### ✨ 交互体验
+- **鼠标轨迹** - 鼠标移动时产生发光轨迹效果
+- **打字机效果** - 终端命令的逐字显示动画
+- **数字雨效果** - 页面上的二进制数字飘落
+- **发光边框** - 悬停时的霓虹发光效果
+- **扫描线动画** - 页面顶部的扫描线效果
+
+### 🎯 页面组件
+- **黑客头部** - 终端风格的系统状态栏
+- **终端窗口** - 模拟命令行界面的内容展示
+- **系统面板** - 显示博客运行状态的监控面板
+- **404错误页** - 入侵检测风格的错误页面
+- **关于页面** - 系统信息终端风格的个人介绍
 
 ## 🚀 技术栈
 
+### 核心技术
 - **Jekyll** - 静态网站生成器
 - **GitHub Pages** - 免费托管服务
 - **Markdown** - 内容写作格式
-- **SCSS** - 样式预处理
-- **JavaScript** - 交互功能
+- **CSS3** - 黑客风格样式
+- **JavaScript** - 特效和交互功能
 - **Liquid** - 模板引擎
+
+### 特效技术
+- **Canvas API** - 矩阵雨和数字雨动画
+- **CSS动画** - 故障艺术和发光效果
+- **Web Fonts** - 等宽编程字体
+- **响应式设计** - 移动端适配
 
 ## 📖 本地开发
 
@@ -85,21 +109,26 @@ tags: [Jekyll, GitHub, 教程]
 
 ## 🎨 自定义配置
 
-### 基本配置
+### 黑客主题配置
 
-编辑 `_config.yml` 文件：
+编辑 `_config.yml` 文件配置黑客主题：
 
 ```yaml
 # 站点信息
-title: "我的个人博客"
-description: "记录技术学习与生活感悟"
+title: "Hacker Blog"
+description: "[root@hacker-blog ~]# ./share-knowledge.sh"
 author: "9Insomnie"
 
-# 社交链接
-social:
-  github: 9Insomnie
-  twitter: your_twitter
-  email: your-email@example.com
+# 黑客主题设置
+hacker_theme:
+  enable_matrix_rain: true      # 启用矩阵雨效果
+  enable_mouse_trail: true      # 启用鼠标轨迹
+  enable_glitch_effects: true   # 启用故障艺术效果
+  enable_terminal_effects: true # 启用终端效果
+  color_scheme: "cyberpunk"     # cyberpunk, matrix, neon
+  font_family: "monospace"      # 等宽字体
+  show_system_status: true      # 显示系统状态
+  show_hacker_header: true      # 显示黑客头部
 ```
 
 ### 主题定制

@@ -1,0 +1,504 @@
+/* 黑客风格主题 - Hacker Theme */
+
+/* 导入字体 */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+/* CSS变量定义 */
+:root {
+    /* 黑客配色方案 */
+    --primary-green: #00ff41;
+    --primary-green-dark: #00cc33;
+    --matrix-green: #00ff00;
+    --cyber-purple: #9d4edd;
+    --cyber-blue: #00d9ff;
+    --cyber-pink: #f72585;
+    --dark-bg: #0a0a0a;
+    --dark-bg-secondary: #1a1a1a;
+    --dark-bg-card: #151515;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --border-color: #333333;
+    --shadow-glow: rgba(0, 255, 65, 0.3);
+    --shadow-cyber: rgba(157, 78, 221, 0.2);
+    
+    /* 字体 */
+    --font-mono: 'Fira Code', 'Share Tech Mono', 'Courier New', monospace;
+    --font-primary: 'Fira Code', monospace;
+    
+    /* 动画 */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* 全局样式重置 */
+* {
+    box-sizing: border-box;
+}
+
+/* 基础样式 */
+body {
+    font-family: var(--font-primary);
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* 矩阵背景动画 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 255, 65, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(157, 78, 221, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(247, 37, 133, 0.1) 0%, transparent 50%);
+    z-index: -2;
+    animation: matrix-bg 20s ease-in-out infinite;
+}
+
+@keyframes matrix-bg {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+/* 扫描线效果 */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary-green) 50%, 
+        transparent);
+    z-index: 9999;
+    animation: scanline 3s linear infinite;
+    opacity: 0.7;
+}
+
+@keyframes scanline {
+    0% { transform: translateY(-4px); }
+    100% { transform: translateY(100vh); }
+}
+
+/* 标题样式 */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--primary-green);
+    text-shadow: 0 0 10px var(--shadow-glow);
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    border-left: 4px solid var(--primary-green);
+    padding-left: 1rem;
+    background: linear-gradient(90deg, 
+        rgba(0, 255, 65, 0.1) 0%, 
+        transparent 100%);
+}
+
+h2 {
+    font-size: 2rem;
+    border-bottom: 2px solid var(--primary-green);
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: var(--cyber-blue);
+}
+
+/* 链接样式 */
+a {
+    color: var(--cyber-blue);
+    text-decoration: none;
+    position: relative;
+    transition: all var(--transition-fast);
+}
+
+a::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--cyber-blue);
+    transition: width var(--transition-normal);
+}
+
+a:hover {
+    color: var(--primary-green);
+    text-shadow: 0 0 5px var(--shadow-glow);
+}
+
+a:hover::before {
+    width: 100%;
+}
+
+/* 导航栏黑客风格 */
+.site-header {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    padding: 1rem 0;
+    position: relative;
+}
+
+.navbar::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary-green), 
+        transparent);
+    animation: nav-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes nav-glow {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.site-title {
+    font-family: var(--font-mono);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-green) !important;
+    text-shadow: 0 0 15px var(--shadow-glow);
+    letter-spacing: 2px;
+    position: relative;
+}
+
+.site-title::after {
+    content: '|';
+    color: var(--primary-green);
+    animation: blink 1s infinite;
+    margin-left: 5px;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+.nav-menu a {
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding: 0.5rem 1rem;
+    border: 1px solid transparent;
+    transition: all var(--transition-normal);
+}
+
+.nav-menu a:hover {
+    color: var(--primary-green);
+    border: 1px solid var(--primary-green);
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 10px var(--shadow-glow);
+    text-decoration: none;
+}
+
+/* 主要内容区域 */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+}
+
+/* 文章卡片黑客风格 */
+.post-preview {
+    background: var(--dark-bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-normal);
+}
+
+.post-preview::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary-green), 
+        transparent);
+    transition: left var(--transition-slow);
+}
+
+.post-preview:hover {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 20px var(--shadow-glow);
+    transform: translateY(-2px);
+}
+
+.post-preview:hover::before {
+    left: 100%;
+}
+
+.post-title a {
+    color: var(--primary-green);
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.post-title a:hover {
+    color: var(--cyber-blue);
+    text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+/* 按钮黑客风格 */
+.btn, .read-more, .view-all-posts {
+    font-family: var(--font-mono);
+    background: transparent;
+    color: var(--primary-green);
+    border: 1px solid var(--primary-green);
+    padding: 0.75rem 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-normal);
+}
+
+.btn::before, .read-more::before, .view-all-posts::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(0, 255, 65, 0.2), 
+        transparent);
+    transition: left var(--transition-slow);
+}
+
+.btn:hover::before, .read-more:hover::before, .view-all-posts:hover::before {
+    left: 100%;
+}
+
+.btn:hover, .read-more:hover, .view-all-posts:hover {
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 15px var(--shadow-glow);
+    color: var(--primary-green);
+    text-decoration: none;
+}
+
+/* 代码块黑客风格 */
+pre, code {
+    font-family: var(--font-mono);
+    background: var(--dark-bg-secondary);
+    color: var(--primary-green);
+    border: 1px solid var(--border-color);
+}
+
+code {
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+pre {
+    padding: 1rem;
+    border-radius: 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+pre::before {
+    content: '// CODE';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* 引用块黑客风格 */
+blockquote {
+    border-left: 4px solid var(--cyber-purple);
+    background: rgba(157, 78, 221, 0.1);
+    color: var(--text-primary);
+    font-style: italic;
+    position: relative;
+}
+
+blockquote::before {
+    content: '>';
+    position: absolute;
+    left: -1.5rem;
+    color: var(--cyber-purple);
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+/* 文章页面黑客风格 */
+.post {
+    background: var(--dark-bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    padding: 3rem;
+    position: relative;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.post::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, 
+        var(--cyber-purple), 
+        var(--primary-green), 
+        var(--cyber-blue));
+}
+
+.post-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    background: linear-gradient(45deg, 
+        var(--primary-green), 
+        var(--cyber-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 元信息黑客风格 */
+.post-meta {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--dark-bg-secondary);
+    border: 1px solid var(--border-color);
+    position: relative;
+}
+
+.post-meta::before {
+    content: '[';
+    color: var(--primary-green);
+    margin-right: 0.5rem;
+}
+
+.post-meta::after {
+    content: ']';
+    color: var(--primary-green);
+    margin-left: 0.5rem;
+}
+
+/* 页脚黑客风格 */
+.site-footer {
+    background: var(--dark-bg-secondary);
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    text-align: center;
+    position: relative;
+}
+
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        var(--primary-green), 
+        transparent);
+    animation: footer-glow 3s ease-in-out infinite;
+}
+
+@keyframes footer-glow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.5rem; }
+    
+    .post {
+        padding: 2rem 1rem;
+    }
+    
+    .post-title {
+        font-size: 2rem;
+    }
+    
+    .site-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* 滚动条黑客风格 */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-green);
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-green-dark);
+}
+
+/* 选择文本样式 */
+::selection {
+    background: rgba(0, 255, 65, 0.3);
+    color: var(--primary-green);
+}
+
+::-moz-selection {
+    background: rgba(0, 255, 65, 0.3);
+    color: var(--primary-green);
+}

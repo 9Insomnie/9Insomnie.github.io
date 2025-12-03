@@ -8,6 +8,7 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/hacker-style.css' | relative_url }}">
     
     <!-- SEO and Feed -->
     {% seo %}
@@ -15,8 +16,13 @@
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}">
+    
+    <!-- Hacker Theme Meta -->
+    <meta name="theme-color" content="#00ff41">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#00ff41">
 </head>
 <body>
+    {% include hacker-header.html %}
     <header class="site-header">
         <nav class="navbar">
             <div class="nav-container">
@@ -48,5 +54,6 @@
     </footer>
 
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/hacker-effects.js' | relative_url }}"></script>
 </body>
 </html>

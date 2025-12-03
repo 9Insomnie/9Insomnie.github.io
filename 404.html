@@ -1,0 +1,486 @@
+---
+layout: default
+permalink: /404.html
+title: "Access Denied - Error 404"
+---
+
+<div class="error-page">
+    <div class="error-container">
+        <div class="error-header">
+            <div class="error-code">
+                <span class="glitch-text" data-text="404">404</span>
+            </div>
+            <div class="error-title">ACCESS DENIED</div>
+            <div class="error-subtitle">INTRUSION DETECTED</div>
+        </div>
+        
+        <div class="terminal-alert">
+            <div class="alert-header">
+                <span class="alert-icon">🚨</span>
+                <span class="alert-title">SECURITY BREACH DETECTED</span>
+            </div>
+            <div class="alert-content">
+                <div class="alert-line">[ERROR] Requested resource not found in system</div>
+                <div class="alert-line">[WARNING] Unauthorized access attempt logged</div>
+                <div class="alert-line">[INFO] IP address has been recorded: <span class="ip-address">{{ site.url }}</span></div>
+                <div class="alert-line">[ACTION] Redirecting to safe zone...</div>
+            </div>
+        </div>
+
+        <div class="ascii-art">
+            <pre>
+    ██████╗ ██████╗ ███████╗    ██████╗ ███████╗██████╗ ██╗   ██╗███████╗
+    ██╔══██╗██╔══██╗██╔════╝    ██╔══██╗██╔════╝██╔══██╗██║   ██║██╔════╝
+    ██████╔╝██████╔╝█████╗      ██║  ██║█████╗  ██████╔╝██║   ██║█████╗  
+    ██╔══██╗██╔══██╗██╔══╝      ██║  ██║██╔══╝  ██╔══██╗╚██╗ ██╔╝██╔══╝  
+    ██║  ██║██████╔╝███████╗    ██████╔╝███████╗██║  ██║ ╚████╔╝ ███████╗
+    ╚═╝  ╚═╝╚═════╝ ╚══════╝    ╚═════╝ ╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝
+            </pre>
+        </div>
+
+        <div class="system-response">
+            <div class="response-header">System Response:</div>
+            <div class="response-content">
+                <p>The page you are looking for has been either removed, renamed, or never existed.</p>
+                <p>Please check the URL and try again, or return to the homepage.</p>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href="{{ '/' | relative_url }}" class="btn btn-primary">
+                <span class="btn-icon">🏠</span>
+                Return to Homepage
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                <span class="btn-icon">←</span>
+                Go Back
+            </a>
+        </div>
+
+        <div class="system-log">
+            <div class="log-header">
+                <span class="log-icon">📋</span>
+                <span class="log-title">System Log</span>
+            </div>
+            <div class="log-content">
+                <div class="log-entry">
+                    <span class="timestamp">[{{ "now" | date: "%Y-%m-%d %H:%M:%S" }}]</span>
+                    <span class="log-level error">ERROR</span>
+                    <span class="log-message">404 Page Not Found - {{ page.url }}</span>
+                </div>
+                <div class="log-entry">
+                    <span class="timestamp">[{{ "now" | date: "%Y-%m-%d %H:%M:%S" }}]</span>
+                    <span class="log-level warning">WARNING</span>
+                    <span class="log-message">Access attempt logged and monitored</span>
+                </div>
+                <div class="log-entry">
+                    <span class="timestamp">[{{ "now" | date: "%Y-%m-%d %H:%M:%S" }}]</span>
+                    <span class="log-level info">INFO</span>
+                    <span class="log-message">Redirecting user to safety...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="digital-rain-overlay"></div>
+</div>
+
+<style>
+.error-page {
+    min-height: 100vh;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Fira Code', monospace;
+}
+
+.error-container {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+}
+
+.error-header {
+    margin-bottom: 3rem;
+}
+
+.error-code {
+    margin-bottom: 1rem;
+}
+
+.glitch-text {
+    font-size: 8rem;
+    font-weight: 900;
+    color: #ff0040;
+    text-shadow: 
+        0 0 10px #ff0040,
+        0 0 20px #ff0040,
+        0 0 30px #ff0040,
+        0 0 40px #ff0040;
+    position: relative;
+    display: inline-block;
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+    0%, 100% { 
+        text-shadow: 
+            0 0 10px #ff0040,
+            0 0 20px #ff0040,
+            0 0 30px #ff0040;
+    }
+    25% { 
+        text-shadow: 
+            -2px 0 #00ffff,
+            2px 0 #ff00ff,
+            0 0 10px #ff0040;
+    }
+    75% { 
+        text-shadow: 
+            2px 0 #00ffff,
+            -2px 0 #ff00ff,
+            0 0 10px #ff0040;
+    }
+}
+
+.error-title {
+    font-size: 2rem;
+    color: #ff0040;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px #ff0040;
+}
+
+.error-subtitle {
+    font-size: 1.2rem;
+    color: #ff8c00;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.terminal-alert {
+    background: linear-gradient(135deg, #2d1810 0%, #1a0f08 100%);
+    border: 2px solid #ff0040;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.terminal-alert::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        #ff0040, 
+        transparent);
+    animation: alert-scan 1.5s linear infinite;
+}
+
+@keyframes alert-scan {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.alert-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.alert-icon {
+    font-size: 1.5rem;
+    animation: blink 1s infinite;
+}
+
+.alert-title {
+    color: #ff0040;
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-shadow: 0 0 5px #ff0040;
+}
+
+.alert-line {
+    color: #e0e0e0;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.ip-address {
+    color: #00ff41;
+    font-family: monospace;
+    background: rgba(0, 255, 65, 0.1);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+}
+
+.ascii-art {
+    margin: 2rem 0;
+    opacity: 0.7;
+}
+
+.ascii-art pre {
+    color: #00ff41;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    text-shadow: 0 0 5px #00ff41;
+    margin: 0;
+}
+
+.system-response {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.response-header {
+    color: #00d9ff;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.response-content {
+    color: #a0a0a0;
+    line-height: 1.6;
+}
+
+.response-content p {
+    margin-bottom: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    font-family: 'Fira Code', monospace;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.2), 
+        transparent);
+    transition: left 0.5s ease;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #00ff41, #00d9ff);
+    color: #0a0a0a;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 255, 65, 0.5);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #00d9ff;
+    border: 1px solid #00d9ff;
+    box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(0, 217, 255, 0.1);
+    box-shadow: 0 5px 20px rgba(0, 217, 255, 0.5);
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+}
+
+.system-log {
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.log-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #a0a0a0;
+}
+
+.log-icon {
+    font-size: 1.2rem;
+}
+
+.log-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.log-entry {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-family: monospace;
+}
+
+.timestamp {
+    color: #666;
+    white-space: nowrap;
+}
+
+.log-level {
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.log-level.error {
+    background: rgba(255, 0, 64, 0.2);
+    color: #ff0040;
+    border: 1px solid #ff0040;
+}
+
+.log-level.warning {
+    background: rgba(255, 140, 0, 0.2);
+    color: #ff8c00;
+    border: 1px solid #ff8c00;
+}
+
+.log-level.info {
+    background: rgba(0, 217, 255, 0.2);
+    color: #00d9ff;
+    border: 1px solid #00d9ff;
+}
+
+.log-message {
+    color: #e0e0e0;
+    flex: 1;
+}
+
+/* 数字雨覆盖层 */
+.digital-rain-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.1;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .glitch-text {
+        font-size: 4rem;
+    }
+    
+    .error-title {
+        font-size: 1.5rem;
+    }
+    
+    .ascii-art pre {
+        font-size: 0.5rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 200px;
+        justify-content: center;
+    }
+    
+    .log-entry {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+</style>
+
+<script>
+// 添加一些交互效果
+document.addEventListener('DOMContentLoaded', function() {
+    // 随机IP地址生成
+    function generateRandomIP() {
+        return `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
+    }
+    
+    const ipElement = document.querySelector('.ip-address');
+    if (ipElement) {
+        ipElement.textContent = generateRandomIP();
+    }
+    
+    // 添加打字机效果到命令
+    const command = document.querySelector('.command');
+    if (command) {
+        const originalText = command.textContent;
+        command.textContent = '';
+        let i = 0;
+        
+        function typeCommand() {
+            if (i < originalText.length) {
+                command.textContent += originalText.charAt(i);
+                i++;
+                setTimeout(typeCommand, 100);
+            }
+        }
+        
+        setTimeout(typeCommand, 1000);
+    }
+});
+</script>
