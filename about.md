@@ -246,19 +246,30 @@ permalink: /about/
 
 .terminal-buttons {
     display: flex;
-    gap: 0.5rem;
+    gap: 8px;
+    align-items: center;
+    padding-left: 4px;
 }
 
 .btn {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     display: inline-block;
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-.btn.close { background: #ff5f57; }
-.btn.minimize { background: #ffbd2e; }
-.btn.maximize { background: #28ca42; }
+.btn:hover {
+    transform: scale(1.1);
+    filter: brightness(0.9);
+    cursor: pointer;
+}
+
+.btn.close { background: #ff5f57; box-shadow: 0 0 5px rgba(255, 95, 87, 0.4); }
+.btn.minimize { background: #ffbd2e; box-shadow: 0 0 5px rgba(255, 189, 46, 0.4); }
+.btn.maximize { background: #28ca42; box-shadow: 0 0 5px rgba(40, 202, 66, 0.4); }
 
 .terminal-title {
     font-size: 0.9rem;
