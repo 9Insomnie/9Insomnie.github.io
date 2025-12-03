@@ -1,5 +1,5 @@
-<!-- 简化的终端组件，专门解决显示错位问题 -->
-<div class="simple-terminal">
+<!-- Sliver C2 入侵模拟可视化组件 -->
+<div class="simple-terminal sliver-terminal">
     <div class="terminal-window">
         <div class="terminal-header">
             <div class="terminal-buttons">
@@ -7,201 +7,464 @@
                 <span class="terminal-dot minimize"></span>
                 <span class="terminal-dot maximize"></span>
             </div>
-            <div class="terminal-title-text">blog-system-terminal</div>
+            <div class="terminal-title-text">sliver-client v1.5.42 -- session_id: 9a7b8c</div>
         </div>
+        
+        <!-- 可视化展示区 -->
+        <div class="sliver-visualizer">
+            <!-- 攻击面板 -->
+            <div class="panel attacker-panel">
+                <div class="panel-header">
+                    <span class="icon">💻</span>
+                    <span class="label">C2 Server (Attacker)</span>
+                    <span class="status listening">LISTENING</span>
+                </div>
+                <div class="panel-body">
+                    <div class="metric">
+                        <span class="key">Protocol:</span>
+                        <span class="value">mTLS / WireGuard</span>
+                    </div>
+                    <div class="metric">
+                        <span class="key">Port:</span>
+                        <span class="value">8888 / 443</span>
+                    </div>
+                    <div class="metric">
+                        <span class="key">Implants:</span>
+                        <span class="value implant-count">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 网络传输层动画 -->
+            <div class="network-layer">
+                <div class="connection-line">
+                    <div class="packet-flow"></div>
+                </div>
+                <div class="status-badge">ENCRYPTED TUNNEL</div>
+            </div>
+
+            <!-- 目标面板 -->
+            <div class="panel victim-panel">
+                <div class="panel-header">
+                    <span class="icon">🏢</span>
+                    <span class="label">Target Endpoint</span>
+                    <span class="status secure">CLEAN</span>
+                </div>
+                <div class="panel-body">
+                    <div class="metric">
+                        <span class="key">OS:</span>
+                        <span class="value">Windows 10 Ent</span>
+                    </div>
+                    <div class="metric">
+                        <span class="key">User:</span>
+                        <span class="value">SYSTEM\NT AUTHORITY</span>
+                    </div>
+                    <div class="process-list">
+                        <div class="process active">explorer.exe</div>
+                        <div class="process hidden">svchost.exe (implant)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 控制台区域 -->
         <div class="terminal-content">
+            <div class="sliver-logs">
+                <div class="log-entry system">[server] Sliver v1.5.42 - Bishop Fox</div>
+                <div class="log-entry system">[server] Loaded 0 implants, 0 active sessions</div>
+                <div class="log-entry info">[*] MTLS listener started on 0.0.0.0:8888</div>
+            </div>
             <div class="terminal-prompt">
-                <span class="prompt-text">root@hacker-blog:~/blog$ ./start-blog.sh</span>
+                <span class="prompt-text">sliver ></span>
                 <span class="cursor">|</span>
             </div>
-            <div class="terminal-output">
-                <div class="output-line">[INFO] Initializing blog system...</div>
-                <div class="output-line success">[OK] Blog engine started successfully</div>
-                <div class="output-line">[INFO] Loading latest posts...</div>
-            </div>
+        </div>
+
+        <!-- 交互控制面板 -->
+        <div class="sliver-controls">
+            <button class="ctrl-btn" onclick="sliverDemo.generateImplant()">
+                <span class="btn-icon">⚙️</span> Generate
+            </button>
+            <button class="ctrl-btn" onclick="sliverDemo.deliverPayload()">
+                <span class="btn-icon">🚀</span> Deliver
+            </button>
+            <button class="ctrl-btn" onclick="sliverDemo.executeCommand()">
+                <span class="btn-icon">⌨️</span> Execute
+            </button>
+            <button class="ctrl-btn reset" onclick="sliverDemo.reset()">
+                <span class="btn-icon">🔄</span> Reset
+            </button>
         </div>
     </div>
 </div>
 
 <style>
-/* 简化终端样式 - 专门解决对齐问题 */
-.simple-terminal {
+/* Sliver Demo 专用样式 */
+.sliver-terminal {
     margin: 2rem auto;
-    max-width: 600px;
+    max-width: 800px;
+    font-family: 'Fira Code', monospace;
 }
 
-.simple-terminal .terminal-window {
+.sliver-terminal .terminal-window {
     background: #0a0a0a;
     border: 1px solid #00ff41;
     border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
     overflow: hidden;
-    font-family: 'Fira Code', monospace;
-    font-size: 14px;
+}
+
+/* 可视化区域 */
+.sliver-visualizer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+    border-bottom: 1px solid #333;
+    min-height: 200px;
+    position: relative;
+}
+
+/* 面板样式 */
+.panel {
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid #333;
+    border-radius: 6px;
+    padding: 12px;
+    width: 220px;
+    transition: all 0.3s ease;
+}
+
+.panel.active {
+    border-color: #00ff41;
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 8px;
+}
+
+.panel-header .icon { font-size: 1.2rem; }
+.panel-header .label { font-size: 0.8rem; color: #e0e0e0; font-weight: 600; }
+.panel-header .status { 
+    margin-left: auto; 
+    font-size: 0.6rem; 
+    padding: 2px 6px; 
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.status.listening { background: #003300; color: #00ff41; border: 1px solid #00ff41; }
+.status.secure { background: #001a33; color: #00d9ff; border: 1px solid #00d9ff; }
+.status.compromised { background: #330000; color: #ff5f57; border: 1px solid #ff5f57; animation: pulse-red 2s infinite; }
+
+.panel-body { font-size: 0.75rem; color: #a0a0a0; }
+
+.metric {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.metric .value { color: #e0e0e0; }
+
+/* 进程列表 */
+.process-list {
+    margin-top: 8px;
+    background: #000;
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+.process { padding: 2px 4px; color: #666; }
+.process.active { color: #00d9ff; }
+.process.hidden { display: none; color: #ff5f57; }
+
+/* 网络连接动画 */
+.network-layer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 20px;
+}
+
+.connection-line {
+    width: 100%;
+    height: 2px;
+    background: #333;
+    position: relative;
+}
+
+.packet-flow {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: #00ff41;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ff41;
+    opacity: 0;
+}
+
+.packet-flow.transmitting {
+    opacity: 1;
+    animation: transmit 1.5s linear infinite;
+}
+
+.status-badge {
+    margin-top: 8px;
+    font-size: 0.6rem;
+    color: #666;
+    background: #111;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #333;
+}
+
+/* 终端日志 */
+.terminal-content {
+    height: 200px;
+    overflow-y: auto;
+    padding: 12px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #333;
+}
+
+.log-entry {
+    margin-bottom: 4px;
+    font-size: 13px;
     line-height: 1.4;
 }
 
-.simple-terminal .terminal-header {
-    background: #2d2d2d;
-    padding: 8px 12px;
+.log-entry.system { color: #666; }
+.log-entry.info { color: #00d9ff; }
+.log-entry.success { color: #00ff41; }
+.log-entry.warning { color: #ffbd2e; }
+.log-entry.error { color: #ff5f57; }
+.log-entry.command { color: #e0e0e0; font-weight: bold; }
+
+/* 交互控制 */
+.sliver-controls {
     display: flex;
-    align-items: center;
-    border-bottom: 1px solid #00ff41;
-}
-
-.simple-terminal .terminal-buttons {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
-
-.simple-terminal .terminal-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: inline-block;
-    position: relative;
-    border: 1px solid rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.simple-terminal .terminal-dot:hover {
-    transform: scale(1.1);
-    filter: brightness(0.9);
-    cursor: pointer;
-}
-
-.simple-terminal .terminal-dot.close { background: #ff5f57; box-shadow: 0 0 5px rgba(255, 95, 87, 0.4); }
-.simple-terminal .terminal-dot.minimize { background: #ffbd2e; box-shadow: 0 0 5px rgba(255, 189, 46, 0.4); }
-.simple-terminal .terminal-dot.maximize { background: #28ca42; box-shadow: 0 0 5px rgba(40, 202, 66, 0.4); }
-
-.simple-terminal .terminal-title-text {
-    color: #a0a0a0;
-    font-size: 12px;
-    margin-left: auto;
-}
-
-.simple-terminal .terminal-content {
+    gap: 10px;
     padding: 12px;
-    background: #0a0a0a;
+    background: #1a1a1a;
+    justify-content: center;
+}
+
+.ctrl-btn {
+    background: #2d2d2d;
+    border: 1px solid #444;
     color: #e0e0e0;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
 }
 
-/* 修复后的命令行样式 */
-.simple-terminal .terminal-prompt {
-    margin-bottom: 8px;
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.simple-terminal .prompt-text {
+.ctrl-btn:hover {
+    background: #3d3d3d;
+    border-color: #00ff41;
     color: #00ff41;
+    transform: translateY(-2px);
 }
 
-.simple-terminal .cursor {
-    color: #00ff41;
-    animation: blink 1s infinite;
-    margin-left: 2px;
+.ctrl-btn.reset:hover {
+    border-color: #ff5f57;
+    color: #ff5f57;
 }
 
-.simple-terminal .terminal-output {
-    margin-top: 8px;
-    padding-left: 16px;
-    border-left: 2px solid #00ff41;
+/* 动画定义 */
+@keyframes transmit {
+    0% { left: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
 }
 
-.simple-terminal .output-line {
-    margin-bottom: 4px;
-    font-size: 12px;
-    display: block;
-    text-align: left;
+@keyframes pulse-red {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 95, 87, 0.2); }
+    50% { box-shadow: 0 0 15px rgba(255, 95, 87, 0.5); }
 }
 
-.simple-terminal .output-line.success {
-    color: #00ff41;
+/* 响应式适配 */
+@media (max-width: 600px) {
+    .sliver-visualizer {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .network-layer {
+        width: 100%;
+        height: 40px;
+    }
+    
+    .connection-line {
+        width: 2px;
+        height: 100%;
+        margin: 0 auto;
+    }
+    
+    .packet-flow {
+        top: 0;
+        left: -4px;
+        animation: transmit-vertical 1.5s linear infinite;
+    }
+    
+    .sliver-controls {
+        flex-wrap: wrap;
+    }
+    
+    .ctrl-btn {
+        flex: 1;
+        justify-content: center;
+    }
 }
 
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
-
-/* 响应式设计 */
-@media (max-width: 768px) {
-    .simple-terminal {
-        margin: 1rem;
-        font-size: 12px;
-    }
-    
-    .simple-terminal .terminal-content {
-        padding: 10px;
-    }
-    
-    .simple-terminal .terminal-prompt {
-        font-size: 11px;
-    }
-    
-    .simple-terminal .output-line {
-        font-size: 10px;
-    }
-}
-
-@media (max-width: 480px) {
-    .simple-terminal {
-        font-size: 10px;
-        margin: 0.5rem;
-    }
-    
-    .simple-terminal .terminal-header {
-        padding: 6px 8px;
-    }
-    
-    .simple-terminal .terminal-content {
-        padding: 8px;
-    }
-    
-    .simple-terminal .terminal-prompt {
-        font-size: 9px;
-    }
-    
-    .simple-terminal .output-line {
-        font-size: 8px;
-    }
+@keyframes transmit-vertical {
+    0% { top: 0; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
 }
 </style>
 
 <script>
-// 简单的终端动画效果
-document.addEventListener('DOMContentLoaded', function() {
-    const cursor = document.querySelector('.simple-terminal .cursor');
-    const outputLines = document.querySelectorAll('.simple-terminal .output-line');
+const sliverDemo = {
+    state: 'idle', // idle, generating, generated, delivering, infected
+    logs: document.querySelector('.sliver-logs'),
     
-    if (!cursor || !outputLines.length) return;
-    
-    // 隐藏所有输出行
-    outputLines.forEach(line => {
-        line.style.opacity = '0';
-        line.style.transform = 'translateX(-10px)';
-        line.style.transition = 'all 0.3s ease';
-    });
-    
-    // 依次显示输出行
-    setTimeout(() => {
-        outputLines.forEach((line, index) => {
-            setTimeout(() => {
-                line.style.opacity = '1';
-                line.style.transform = 'translateX(0)';
-            }, index * 500);
-        });
+    log: function(msg, type = 'info') {
+        const logs = document.querySelector('.sliver-logs');
+        if (!logs) return;
         
-        // 最后停止光标闪烁
+        const entry = document.createElement('div');
+        entry.className = `log-entry ${type}`;
+        
+        // 获取当前时间
+        const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+        entry.textContent = `[${time}] ${msg}`;
+        
+        logs.appendChild(entry);
+        logs.scrollTop = logs.scrollHeight;
+    },
+    
+    generateImplant: function() {
+        if (this.state !== 'idle') return;
+        this.state = 'generating';
+        
+        this.log('generate --mtls 192.168.1.5 --os windows --arch amd64', 'command');
+        this.log('[*] Compiling implant (this may take a minute)...');
+        
         setTimeout(() => {
-            if (cursor) {
-                cursor.style.animation = 'none';
-                cursor.style.opacity = '1';
-            }
-        }, outputLines.length * 500 + 1000);
-    }, 1500);
-});
+            this.log('[*] Obfuscating payload symbols...');
+        }, 800);
+        
+        setTimeout(() => {
+            this.log('[+] Implant generated: BRONZE_EAGLE (update.exe)', 'success');
+            this.log('[*] SHA256: 8f4b2a...', 'system');
+            this.state = 'generated';
+            
+            // 视觉反馈
+            document.querySelector('.attacker-panel').classList.add('active');
+        }, 2000);
+    },
+    
+    deliverPayload: function() {
+        if (this.state !== 'generated') {
+            this.log('[!] No implant generated! Please generate first.', 'error');
+            return;
+        }
+        this.state = 'delivering';
+        
+        this.log('Sending payload to target...', 'command');
+        
+        // 启动传输动画
+        const packet = document.querySelector('.packet-flow');
+        packet.classList.add('transmitting');
+        
+        setTimeout(() => {
+            this.log('[*] Payload delivered successfully');
+            this.log('[*] Target executing payload...');
+            
+            // 模拟执行延迟
+            setTimeout(() => {
+                this.infectTarget();
+            }, 1500);
+        }, 1500);
+    },
+    
+    infectTarget: function() {
+        this.state = 'infected';
+        this.log('[+] Session 1 opened - 192.168.1.105:49231 -> 192.168.1.5:8888', 'success');
+        this.log('[*] Active session: BRONZE_EAGLE (9a7b8c)', 'info');
+        
+        // 更新UI状态
+        document.querySelector('.victim-panel').classList.add('active');
+        const status = document.querySelector('.victim-panel .status');
+        status.textContent = 'COMPROMISED';
+        status.className = 'status compromised';
+        
+        document.querySelector('.implant-count').textContent = '1';
+        document.querySelector('.process.hidden').style.display = 'block';
+        
+        document.querySelector('.packet-flow').style.animationDuration = '0.5s'; // 加快心跳包
+    },
+    
+    executeCommand: function() {
+        if (this.state !== 'infected') {
+            this.log('[!] No active session! Target not compromised.', 'error');
+            return;
+        }
+        
+        const commands = [
+            { cmd: 'whoami', out: 'NT AUTHORITY\\SYSTEM' },
+            { cmd: 'ps', out: 'Process List: explorer.exe (1240), lsass.exe (644)...' },
+            { cmd: 'getprivs', out: 'SeDebugPrivilege: Enabled' },
+            { cmd: 'screenshot', out: '[+] Screenshot saved to /loot/screen_1.png' }
+        ];
+        
+        const randomCmd = commands[Math.floor(Math.random() * commands.length)];
+        
+        this.log(`sliver (BRONZE_EAGLE) > ${randomCmd.cmd}`, 'command');
+        setTimeout(() => {
+            this.log(randomCmd.out, 'info');
+        }, 600);
+    },
+    
+    reset: function() {
+        this.state = 'idle';
+        const logs = document.querySelector('.sliver-logs');
+        logs.innerHTML = '';
+        this.log('[server] System reset. Ready.', 'system');
+        
+        // 重置UI
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        document.querySelector('.packet-flow').classList.remove('transmitting');
+        
+        const status = document.querySelector('.victim-panel .status');
+        status.textContent = 'CLEAN';
+        status.className = 'status secure';
+        
+        document.querySelector('.implant-count').textContent = '0';
+        document.querySelector('.process.hidden').style.display = 'none';
+        document.querySelector('.packet-flow').style.animationDuration = '1.5s';
+    }
+};
 </script>

@@ -175,7 +175,10 @@ permalink: /about/
 }
 
 .system-header {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 3rem;
     position: relative;
 }
@@ -186,7 +189,7 @@ permalink: /about/
     text-shadow: 0 0 20px #00ff41;
     margin-bottom: 1rem;
     position: relative;
-    display: inline-block;
+    text-align: center;
 }
 
 .system-status {
