@@ -1,21 +1,8 @@
-// Mobile Navigation Toggle
+// Mobile Navigation Toggle - Initial check and setup
 document.addEventListener('DOMContentLoaded', function() {
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (navToggle && navMenu) {
-        navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-        });
-        
-        // Close menu when clicking on a link
-        const navLinks = document.querySelectorAll('.nav-menu a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                navMenu.classList.remove('active');
-            });
-        });
-    }
+    // Initialize features
+    createScrollToTopButton();
+    setupMobileMenu();
 });
 
 // Smooth scrolling for anchor links
@@ -37,38 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add reading progress bar
-function createReadingProgressBar() {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'reading-progress-bar';
-    progressBar.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 3px;
-        background: #007bff;
-        z-index: 9999;
-        transition: width 0.3s ease;
-    `;
-    document.body.appendChild(progressBar);
-    
-    function updateProgress() {
-        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        progressBar.style.width = scrolled + '%';
-    }
-    
-    window.addEventListener('scroll', updateProgress);
-}
 
-// Initialize reading progress bar on post pages
-document.addEventListener('DOMContentLoaded', function() {
-    if (document.querySelector('.post')) {
-        createReadingProgressBar();
-    }
-});
 
 // Add copy functionality to code blocks
 document.addEventListener('DOMContentLoaded', function() {
@@ -163,4 +119,34 @@ function createScrollToTopButton() {
 }
 
 // Initialize scroll to top button
-document.addEventListener('DOMContentLoaded', createScrollToTopButton);
+// (Moved to top DOMContentLoaded listener)
+
+// Mobile Menu Toggle
+function setupMobileMenu() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navToggle.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        });
+        
+        // Close menu when clicking a link
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    }
+}
