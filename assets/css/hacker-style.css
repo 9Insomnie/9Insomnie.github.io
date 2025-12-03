@@ -725,9 +725,21 @@ a:hover {
     background: #111;
     padding: 1.5rem;
     border-radius: 8px;
-    overflow-x: auto;
+    overflow: hidden; /* Changed from overflow-x: auto to hidden to remove scrollbars */
     margin-bottom: 2rem;
     border: 1px solid var(--border-light);
+    height: auto; /* Ensure full content visibility */
+    white-space: pre-wrap; /* Wrap text to avoid horizontal scrolling */
+    word-wrap: break-word; /* Break long words if necessary */
+    position: relative; /* For positioning the copy button */
+}
+
+/* Mobile optimization for pre blocks */
+@media (max-width: 768px) {
+    .article-body pre {
+        padding: 1rem;
+        font-size: 0.9rem; /* Slightly smaller font for better fit */
+    }
 }
 
 .article-body blockquote {

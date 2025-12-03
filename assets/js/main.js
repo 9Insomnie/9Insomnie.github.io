@@ -150,3 +150,72 @@ function setupMobileMenu() {
         });
     }
 }
+
+/**
+ * 安全移除指定DOM元素 (Safe DOM Element Removal)
+ * @param {string} selector - CSS选择器
+ * @param {Function} callback - 移除完成后的回调
+ */
+function removeElementsBySelector(selector, callback) {
+    // 1. 使用DOM选择器精准定位
+    const elements = document.querySelectorAll(selector);
+    
+    if (elements.length === 0) {
+        console.warn(`[Element Remover] No elements found for selector: ${selector}`);
+        return;
+    }
+
+    console.log(`[Element Remover] Found ${elements.length} elements to remove.`);
+
+    elements.forEach((element, index) => {
+        // 2. 存在性验证
+        if (!element || !document.body.contains(element)) return;
+
+        // 3. 无闪烁移除 (Fade out animation)
+        // 锁定高度防止布局突变
+        const height = element.offsetHeight;
+        element.style.height = `${height}px`;
+        element.style.overflow = 'hidden';
+        
+        // 强制重绘
+        void element.offsetHeight;
+
+        // 添加过渡样式
+        element.style.transition = 'all 0.4s ease-out';
+        element.style.opacity = '0';
+        element.style.height = '0';
+        element.style.margin = '0';
+        element.style.padding = '0';
+        element.style.transform = 'scale(0.95)';
+        element.style.pointerEvents = 'none'; // 禁用交互
+
+        // 4. 清理事件监听器 (Clone logic optional, usually GC handles this)
+        // 若有特定数据绑定需在此解绑
+        
+        // 等待动画结束执行移除
+        setTimeout(() => {
+            if (element.parentNode) {
+                element.parentNode.removeChild(element);
+                
+                // 5. 回调通知
+                if (typeof callback === 'function') {
+                    callback(element, index);
+                }
+            }
+        }, 400);
+    });
+}
+
+// 6. 执行移除操作 (针对 .terminal-header)
+document.addEventListener('DOMContentLoaded', () => {
+    // 延迟执行以确保页面完全渲染
+    setTimeout(() => {
+        removeElementsBySelector('.terminal-header', (el) => {
+            console.log(`[Success] Removed terminal header: ${el.className}`);
+            
+            // 可选：添加移除后的占位或调整布局
+            // const parent = el.parentElement;
+            // if (parent) parent.style.borderTop = '1px solid #333';
+        });
+    }, 1000); // 1秒后移除，展示效果
+});
