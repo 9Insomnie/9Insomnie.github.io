@@ -26,8 +26,8 @@
 }
 
 .terminal-dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     display: inline-block;
     flex-shrink: 0;
@@ -72,7 +72,7 @@
     margin-bottom: 0.5rem;
     font-family: 'Fira Code', monospace;
     font-size: 0.85rem;
-    flex-wrap: wrap;
+    /* Removed flex-wrap to prevent wrapping */
     line-height: 1.4;
 }
 
