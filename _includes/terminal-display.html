@@ -1,0 +1,411 @@
+<!-- 修复后的终端显示组件 -->
+<div class="terminal-display">
+    <div class="terminal-window">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="terminal-dot close"></span>
+                <span class="terminal-dot minimize"></span>
+                <span class="terminal-dot maximize"></span>
+            </div>
+            <div class="terminal-title-text">blog-system-terminal</div>
+        </div>
+        <div class="terminal-content">
+            <div class="terminal-line">
+                <span class="prompt">root@hacker-blog</span>
+                <span class="separator">:</span>
+                <span class="path">~/blog</span>
+                <span class="prompt-symbol">$</span>
+                <span class="command-space"></span>
+                <span class="command typing-command" data-text="./start-blog.sh">./start-blog.sh</span>
+                <span class="cursor">|</span>
+            </div>
+            <div class="terminal-output" id="terminalOutput">
+                <!-- 输出将通过JavaScript动态添加 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* 终端显示组件样式 */
+.terminal-display {
+    margin: 2rem 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.terminal-window {
+    background: #0a0a0a;
+    border: 1px solid #00ff41;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    position: relative;
+}
+
+.terminal-header {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid #00ff41;
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.terminal-dot.red { background: #ff5f57; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #28ca42; }
+
+.terminal-title-text {
+    color: #a0a0a0;
+    font-size: 0.85rem;
+    margin-left: auto;
+    font-family: 'Fira Code', monospace;
+}
+
+.terminal-content {
+    padding: 1rem;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    min-height: 120px;
+    position: relative;
+}
+
+/* 修复后的命令行样式 */
+.terminal-line {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 各个组件的精确样式 */
+.prompt {
+    color: #00ff41;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.separator {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.path {
+    color: #00d9ff;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.prompt-symbol {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.command-space {
+    width: 0.3rem;
+}
+
+.command {
+    color: #e0e0e0;
+    font-family: 'Fira Code', monospace;
+    white-space: nowrap;
+}
+
+.cursor {
+    color: #00ff41;
+    animation: blink 1s infinite;
+    font-weight: bold;
+    margin-left: 0.2rem;
+}
+
+.command-space {
+    min-width: 0.5rem;
+    display: inline-block;
+}
+
+/* 终端输出样式 */
+.terminal-output {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid #00ff41;
+    font-family: 'Fira Code', monospace;
+}
+
+.output-line {
+    margin-bottom: 0.3rem;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    display: block;
+    text-align: left;
+}
+
+.output-line.success {
+    color: #00ff41;
+}
+
+.output-line.info {
+    color: #00d9ff;
+}
+
+.output-line.warning {
+    color: #ff8c00;
+}
+
+.output-line.error {
+    color: #ff0040;
+}
+
+/* 打字机效果 */
+.typing-command {
+    display: inline-block;
+    min-width: 1ch;
+}
+
+/* 动画关键帧 */
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .terminal-display {
+        margin: 1rem 0 !important;
+    }
+    
+    .terminal-window {
+        font-size: 0.8rem !important;
+    }
+    
+    .terminal-header {
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    .terminal-content {
+        padding: 0.8rem !important;
+        min-height: 100px !important;
+    }
+    
+    .terminal-line {
+        font-size: 0.75rem !important;
+        gap: 0.2rem !important;
+        margin-bottom: 0.4rem !important;
+    }
+    
+    .terminal-output {
+        margin-top: 0.8rem !important;
+        padding-left: 0.8rem !important;
+    }
+    
+    .output-line {
+        font-size: 0.7rem !important;
+        margin-bottom: 0.2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-line {
+        font-size: 0.65rem !important;
+        letter-spacing: -0.5px !important;
+    }
+    
+    .prompt, .path, .command {
+        font-size: 0.6rem !important;
+    }
+}
+
+/* 横屏模式优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+    .terminal-content {
+        max-height: 40vh !important;
+        overflow-y: auto !important;
+    }
+    
+    .terminal-output {
+        max-height: 30vh !important;
+        overflow-y: auto !important;
+    }
+}
+
+/* 确保固定宽度字体 */
+.terminal-window,
+.terminal-content,
+.terminal-line,
+.prompt,
+.path,
+.command,
+.output-line {
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace !important;
+    font-variant-numeric: tabular-nums !important;
+}
+
+/* 防止布局错位 */
+.terminal-line {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    box-sizing: border-box !important;
+}
+
+.terminal-line > * {
+    margin: 0 !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+}
+
+.command-space {
+    flex-shrink: 0 !important;
+    width: 0.5rem !important;
+}
+
+/* 修复容器宽度 */
+.terminal-window {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.terminal-content {
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+
+/* 修复长命令显示 */
+.terminal-line .command {
+    flex-shrink: 1 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: calc(100% - 180px) !important;
+}
+
+@media (max-width: 768px) {
+    .terminal-line .command {
+        max-width: calc(100% - 130px) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-line .command {
+        max-width: calc(100% - 100px) !important;
+    }
+}
+</style>
+
+<script>
+// 终端打字机效果
+function initTerminalTyping() {
+    const commandElement = document.querySelector('.typing-command');
+    const cursorElement = document.querySelector('.cursor');
+    const outputElement = document.getElementById('terminalOutput');
+    
+    if (!commandElement || !cursorElement || !outputElement) return;
+    
+    const fullCommand = commandElement.getAttribute('data-text') || './start-blog.sh';
+    const outputs = [
+        { text: '[INFO] Initializing blog system...', type: 'info' },
+        { text: '[OK] Blog engine started successfully', type: 'success' },
+        { text: '[INFO] Loading latest posts...', type: 'info' }
+    ];
+    
+    let commandIndex = 0;
+    let outputIndex = 0;
+    let isTypingCommand = true;
+    
+    function typeCommand() {
+        if (commandIndex < fullCommand.length) {
+            commandElement.textContent += fullCommand.charAt(commandIndex);
+            commandIndex++;
+            setTimeout(typeCommand, 100);
+        } else {
+            // 命令输入完成，开始显示输出
+            setTimeout(() => {
+                cursorElement.style.animation = 'none';
+                cursorElement.style.opacity = '0';
+                typeOutputs();
+            }, 500);
+        }
+    }
+    
+    function typeOutputs() {
+        if (outputIndex < outputs.length) {
+            const output = outputs[outputIndex];
+            const line = document.createElement('div');
+            line.className = `output-line ${output.type}`;
+            line.textContent = output.text;
+            
+            // 逐字显示输出
+            const text = output.text;
+            let charIndex = 0;
+            
+            function typeOutputChar() {
+                if (charIndex < text.length) {
+                    line.textContent = text.substring(0, charIndex + 1);
+                    charIndex++;
+                    setTimeout(typeOutputChar, 30);
+                } else {
+                    // 输出完成，准备下一行
+                    outputIndex++;
+                    setTimeout(typeOutputs, 800);
+                }
+            }
+            
+            outputElement.appendChild(line);
+            typeOutputChar();
+        } else {
+            // 所有输出完成，显示最终提示符
+            setTimeout(() => {
+                showFinalPrompt();
+            }, 1000);
+        }
+    }
+    
+    function showFinalPrompt() {
+        const finalLine = document.createElement('div');
+        finalLine.className = 'terminal-line';
+        finalLine.innerHTML = `
+            <span class="prompt">root@hacker-blog</span>
+            <span class="separator">:</span>
+            <span class="path">~/blog</span>
+            <span class="prompt-symbol">$</span>
+            <span class="cursor">|</span>
+        `;
+        outputElement.parentElement.appendChild(finalLine);
+    }
+    
+    // 开始打字机效果
+    typeCommand();
+}
+
+// 初始化终端效果
+document.addEventListener('DOMContentLoaded', function() {
+    // 延迟启动，让页面先加载完成
+    setTimeout(initTerminalTyping, 1000);
+});
+</script>

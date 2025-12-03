@@ -1,0 +1,452 @@
+/* 终端窗口显示修复 */
+
+/* 基础终端容器修复 */
+.terminal-window {
+    background: #0a0a0a;
+    border: 1px solid #00ff41;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+    margin: 1.5rem 0;
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    position: relative;
+}
+
+/* 终端头部 */
+.terminal-header {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid #00ff41;
+    position: relative;
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.terminal-dot.red { 
+    background: #ff5f57; 
+    box-shadow: 0 0 5px #ff5f57;
+}
+
+.terminal-dot.yellow { 
+    background: #ffbd2e; 
+    box-shadow: 0 0 5px #ffbd2e;
+}
+
+.terminal-dot.green { 
+    background: #28ca42; 
+    box-shadow: 0 0 5px #28ca42;
+}
+
+.terminal-title-text {
+    color: #a0a0a0;
+    font-size: 0.85rem;
+    margin-left: auto;
+    font-family: 'Fira Code', monospace;
+}
+
+/* 终端内容区域 */
+.terminal-content {
+    padding: 1rem;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    min-height: 120px;
+    position: relative;
+}
+
+/* 命令行样式 - 修复对齐问题 */
+.terminal-line {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin-bottom: 0.5rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+    line-height: 1.4;
+}
+
+/* 各个组件的样式 */
+.prompt {
+    color: #00ff41;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.separator {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.path {
+    color: #00d9ff;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.prompt-symbol {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.command {
+    color: #e0e0e0;
+    font-family: 'Fira Code', monospace;
+    white-space: nowrap;
+}
+
+.cursor {
+    color: #00ff41;
+    animation: blink 1s infinite;
+    font-weight: bold;
+    margin-left: 0.2rem;
+}
+
+/* 终端输出样式 */
+.terminal-output {
+    margin-top: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid #00ff41;
+    font-family: 'Fira Code', monospace;
+}
+
+.output-line {
+    margin-bottom: 0.3rem;
+    font-size: 0.8rem;
+    line-height: 1.3;
+}
+
+.output-line.success {
+    color: #00ff41;
+}
+
+.output-line.info {
+    color: #00d9ff;
+}
+
+.output-line.warning {
+    color: #ff8c00;
+}
+
+.output-line.error {
+    color: #ff0040;
+}
+
+/* 打字机效果容器 */
+.typing-container {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+}
+
+.typing-text {
+    color: #00d9ff;
+    font-family: 'Fira Code', monospace;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* 命令执行效果 */
+.command-execution {
+    margin-top: 0.5rem;
+    padding-left: 1.5rem;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 系统信息样式 */
+.system-info {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+}
+
+.info-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.3rem;
+}
+
+.status-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00ff41;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* 响应式终端 */
+@media (max-width: 768px) {
+    .terminal-window {
+        font-size: 0.8rem !important;
+        margin: 1rem 0 !important;
+    }
+    
+    .terminal-header {
+        padding: 0.5rem 0.8rem !important;
+    }
+    
+    .terminal-content {
+        padding: 0.8rem !important;
+        min-height: 100px !important;
+    }
+    
+    .terminal-line {
+        font-size: 0.75rem !important;
+        gap: 0.2rem !important;
+        margin-bottom: 0.4rem !important;
+    }
+    
+    .terminal-output {
+        margin-top: 0.8rem !important;
+        padding-left: 0.8rem !important;
+    }
+    
+    .output-line {
+        font-size: 0.7rem !important;
+        margin-bottom: 0.2rem !important;
+    }
+    
+    .typing-container {
+        gap: 0.1rem !important;
+    }
+    
+    .cursor {
+        margin-left: 0.1rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-window {
+        font-size: 0.7rem !important;
+    }
+    
+    .terminal-line {
+        font-size: 0.65rem !important;
+        flex-direction: row !important; /* 防止换行 */
+        flex-wrap: nowrap !important;
+    }
+    
+    .terminal-output {
+        padding-left: 0.5rem !important;
+    }
+    
+    .output-line {
+        font-size: 0.6rem !important;
+    }
+    
+    .system-info {
+        padding: 0.6rem !important;
+        font-size: 0.7rem !important;
+    }
+}
+
+/* 横屏模式优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+    .terminal-content {
+        max-height: 40vh !important;
+        overflow-y: auto !important;
+    }
+    
+    .terminal-output {
+        max-height: 30vh !important;
+        overflow-y: auto !important;
+    }
+}
+
+/* 修复打字机效果对齐 */
+.typing-container {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    max-width: 100%;
+}
+
+.typing-text {
+    display: inline;
+    word-break: break-word;
+    white-space: pre-wrap;
+}
+
+.typing-cursor {
+    display: inline-block;
+    width: 0.6em;
+    text-align: left;
+}
+
+/* 修复首页终端显示 */
+.hero-section .terminal-window {
+    max-width: 600px !important;
+    margin: 0 auto !important;
+}
+
+.hero-section .terminal-content {
+    text-align: left !important;
+}
+
+/* 修复命令行不换行问题 */
+.terminal-line {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* 长命令处理 */
+.terminal-line.long-command {
+    white-space: normal !important;
+    flex-wrap: wrap !important;
+    line-height: 1.5 !important;
+}
+
+/* 移动端特殊处理 */
+@media (max-width: 480px) {
+    .terminal-line {
+        font-size: 0.65rem !important;
+        letter-spacing: -0.5px !important;
+    }
+    
+    .prompt {
+        font-size: 0.6rem !important;
+    }
+    
+    .path {
+        font-size: 0.6rem !important;
+    }
+    
+    .command {
+        font-size: 0.6rem !important;
+    }
+}
+
+/* 修复打字机效果容器 */
+.typing-effect {
+    display: inline-block;
+    min-height: 1.2em;
+    vertical-align: baseline;
+}
+
+/* 确保终端内容不会溢出 */
+.terminal-content {
+    overflow: hidden !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+}
+
+/* 修复输出对齐 */
+.terminal-output .output-line {
+    display: block !important;
+    text-align: left !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* 修复系统状态对齐 */
+.system-info .info-line {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin-bottom: 0.3rem !important;
+    text-align: left !important;
+}
+
+/* 添加滚动支持 */
+.terminal-scroll {
+    overflow-y: auto !important;
+    max-height: 300px !important;
+    -webkit-overflow-scrolling: touch !important;
+}
+
+/* 修复动画导致的错位 */
+.terminal-line,
+.typing-container,
+.typing-text {
+    transform: none !important;
+    animation: none !important;
+}
+
+/* 确保固定宽度字体 */
+.terminal-window,
+.terminal-content,
+.terminal-line,
+.prompt,
+.path,
+.command,
+.output-line {
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace !important;
+    font-variant-numeric: tabular-nums !important;
+    letter-spacing: 0 !important;
+}
+
+/* 修复容器宽度 */
+.terminal-window {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.terminal-content {
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+
+/* 修复flex布局 */
+.terminal-line {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+}
+
+/* 修复间距 */
+.terminal-line > * {
+    margin: 0 !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+/* 修复长文本 */
+.terminal-line .command {
+    flex-shrink: 1 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: calc(100% - 200px) !important; /* 为其他元素留出空间 */
+}
+
+/* 移动端长文本处理 */
+@media (max-width: 768px) {
+    .terminal-line .command {
+        max-width: calc(100% - 150px) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-line .command {
+        max-width: calc(100% - 120px) !important;
+    }
+}

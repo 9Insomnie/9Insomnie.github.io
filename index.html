@@ -12,29 +12,7 @@ layout: default
             {{ site.description }}
         </div>
         
-        <div class="terminal-window">
-            <div class="terminal-header">
-                <span class="terminal-dot red"></span>
-                <span class="terminal-dot yellow"></span>
-                <span class="terminal-dot green"></span>
-                <span class="terminal-title-text">blog-system-terminal</span>
-            </div>
-            <div class="terminal-content">
-                <div class="terminal-line">
-                    <span class="prompt">root@hacker-blog</span>
-                    <span class="separator">:</span>
-                    <span class="path">~/blog</span>
-                    <span class="prompt-symbol">$</span>
-                    <span class="command">./start-blog.sh</span>
-                    <span class="cursor">|</span>
-                </div>
-                <div class="terminal-output">
-                    <div class="output-line">[INFO] Initializing blog system...</div>
-                    <div class="output-line success">[OK] Blog engine started successfully</div>
-                    <div class="output-line">[INFO] Loading latest posts...</div>
-                </div>
-            </div>
-        </div>
+        {% include simple-terminal.html %}
     </div>
 
     <!-- 最新文章区域 -->

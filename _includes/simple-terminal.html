@@ -1,0 +1,196 @@
+<!-- 简化的终端组件，专门解决显示错位问题 -->
+<div class="simple-terminal">
+    <div class="terminal-window">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <span class="terminal-dot close"></span>
+                <span class="terminal-dot minimize"></span>
+                <span class="terminal-dot maximize"></span>
+            </div>
+            <div class="terminal-title-text">blog-system-terminal</div>
+        </div>
+        <div class="terminal-content">
+            <div class="terminal-prompt">
+                <span class="prompt-text">root@hacker-blog:~/blog$ ./start-blog.sh</span>
+                <span class="cursor">|</span>
+            </div>
+            <div class="terminal-output">
+                <div class="output-line">[INFO] Initializing blog system...</div>
+                <div class="output-line success">[OK] Blog engine started successfully</div>
+                <div class="output-line">[INFO] Loading latest posts...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* 简化终端样式 - 专门解决对齐问题 */
+.simple-terminal {
+    margin: 2rem auto;
+    max-width: 600px;
+}
+
+.simple-terminal .terminal-window {
+    background: #0a0a0a;
+    border: 1px solid #00ff41;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.simple-terminal .terminal-header {
+    background: #2d2d2d;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #00ff41;
+}
+
+.simple-terminal .terminal-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.simple-terminal .terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.simple-terminal .terminal-dot.red { background: #ff5f57; }
+.simple-terminal .terminal-dot.yellow { background: #ffbd2e; }
+.simple-terminal .terminal-dot.green { background: #28ca42; }
+
+.simple-terminal .terminal-title-text {
+    color: #a0a0a0;
+    font-size: 12px;
+    margin-left: auto;
+}
+
+.simple-terminal .terminal-content {
+    padding: 12px;
+    background: #0a0a0a;
+    color: #e0e0e0;
+}
+
+/* 修复后的命令行样式 */
+.simple-terminal .terminal-prompt {
+    margin-bottom: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.simple-terminal .prompt-text {
+    color: #00ff41;
+}
+
+.simple-terminal .cursor {
+    color: #00ff41;
+    animation: blink 1s infinite;
+    margin-left: 2px;
+}
+
+.simple-terminal .terminal-output {
+    margin-top: 8px;
+    padding-left: 16px;
+    border-left: 2px solid #00ff41;
+}
+
+.simple-terminal .output-line {
+    margin-bottom: 4px;
+    font-size: 12px;
+    display: block;
+    text-align: left;
+}
+
+.simple-terminal .output-line.success {
+    color: #00ff41;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .simple-terminal {
+        margin: 1rem;
+        font-size: 12px;
+    }
+    
+    .simple-terminal .terminal-content {
+        padding: 10px;
+    }
+    
+    .simple-terminal .terminal-prompt {
+        font-size: 11px;
+    }
+    
+    .simple-terminal .output-line {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .simple-terminal {
+        font-size: 10px;
+        margin: 0.5rem;
+    }
+    
+    .simple-terminal .terminal-header {
+        padding: 6px 8px;
+    }
+    
+    .simple-terminal .terminal-content {
+        padding: 8px;
+    }
+    
+    .simple-terminal .terminal-prompt {
+        font-size: 9px;
+    }
+    
+    .simple-terminal .output-line {
+        font-size: 8px;
+    }
+}
+</style>
+
+<script>
+// 简单的终端动画效果
+document.addEventListener('DOMContentLoaded', function() {
+    const cursor = document.querySelector('.simple-terminal .cursor');
+    const outputLines = document.querySelectorAll('.simple-terminal .output-line');
+    
+    if (!cursor || !outputLines.length) return;
+    
+    // 隐藏所有输出行
+    outputLines.forEach(line => {
+        line.style.opacity = '0';
+        line.style.transform = 'translateX(-10px)';
+        line.style.transition = 'all 0.3s ease';
+    });
+    
+    // 依次显示输出行
+    setTimeout(() => {
+        outputLines.forEach((line, index) => {
+            setTimeout(() => {
+                line.style.opacity = '1';
+                line.style.transform = 'translateX(0)';
+            }, index * 500);
+        });
+        
+        // 最后停止光标闪烁
+        setTimeout(() => {
+            if (cursor) {
+                cursor.style.animation = 'none';
+                cursor.style.opacity = '1';
+            }
+        }, outputLines.length * 500 + 1000);
+    }, 1500);
+});
+</script>
