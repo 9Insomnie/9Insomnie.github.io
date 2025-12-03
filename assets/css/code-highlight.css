@@ -1,0 +1,458 @@
+/* 黑客风格代码高亮主题 */
+
+/* 代码块基础样式 */
+pre {
+    background: #0a0a0a !important;
+    border: 1px solid #00ff41 !important;
+    border-radius: 5px !important;
+    padding: 1.5rem !important;
+    margin: 1.5rem 0 !important;
+    overflow-x: auto !important;
+    position: relative !important;
+    font-family: 'Fira Code', 'Consolas', 'Monaco', monospace !important;
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+    box-shadow: 
+        inset 0 0 20px rgba(0, 255, 65, 0.1),
+        0 0 20px rgba(0, 255, 65, 0.1) !important;
+}
+
+/* 代码块头部信息 */
+pre::before {
+    content: attr(data-lang) ' // ' attr(data-filename);
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    color: #00ff41;
+    font-size: 0.7rem;
+    font-weight: 600;
+    font-family: 'Fira Code', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+pre::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        #00ff41, 
+        #00d9ff, 
+        #9d4edd, 
+        transparent);
+    animation: code-scan 3s linear infinite;
+}
+
+@keyframes code-scan {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* 行号样式 */
+pre.lineno {
+    counter-reset: line-numbering !important;
+}
+
+pre.lineno .lineno {
+    counter-increment: line-numbering !important;
+    margin-right: 1rem !important;
+    color: #555 !important;
+    font-size: 0.8rem !important;
+    user-select: none !important;
+}
+
+pre.lineno .lineno::before {
+    content: counter(line-numbering) !important;
+    display: inline-block !important;
+    width: 2rem !important;
+    text-align: right !important;
+}
+
+/* 行高亮 */
+.highlight-line {
+    background: rgba(0, 255, 65, 0.1) !important;
+    display: block !important;
+    margin: 0 -1.5rem !important;
+    padding: 0 1.5rem !important;
+    border-left: 3px solid #00ff41 !important;
+}
+
+/* 语法高亮颜色主题 */
+.highlight .c     { color: #7ec699 !important; } /* Comment */
+.highlight .err   { color: #ff0040 !important; background: rgba(255, 0, 64, 0.1) !important; } /* Error */
+.highlight .k     { color: #ff007f !important; } /* Keyword */
+.highlight .l     { color: #ae81ff !important; } /* Literal */
+.highlight .n     { color: #f8f8f2 !important; } /* Name */
+.highlight .o     { color: #f92672 !important; } /* Operator */
+.highlight .p     { color: #f8f8f2 !important; } /* Punctuation */
+.highlight .cm    { color: #7ec699 !important; } /* Comment.Multiline */
+.highlight .cp    { color: #e6db74 !important; } /* Comment.Preproc */
+.highlight .c1    { color: #7ec699 !important; } /* Comment.Single */
+.highlight .cs    { color: #7ec699 !important; } /* Comment.Special */
+.highlight .ge    { font-style: italic !important; } /* Generic.Emph */
+.highlight .gs    { font-weight: bold !important; } /* Generic.Strong */
+.highlight .kc    { color: #66d9ef !important; } /* Keyword.Constant */
+.highlight .kd    { color: #ff007f !important; } /* Keyword.Declaration */
+.highlight .kn    { color: #f92672 !important; } /* Keyword.Namespace */
+.highlight .kp    { color: #66d9ef !important; } /* Keyword.Pseudo */
+.highlight .kr    { color: #ff007f !important; } /* Keyword.Reserved */
+.highlight .kt    { color: #66d9ef !important; } /* Keyword.Type */
+.highlight .ld    { color: #e6db74 !important; } /* Literal.Date */
+.highlight .m     { color: #ae81ff !important; } /* Literal.Number */
+.highlight .s     { color: #e6db74 !important; } /* Literal.String */
+.highlight .na    { color: #a6e22e !important; } /* Name.Attribute */
+.highlight .nb    { color: #f8f8f2 !important; } /* Name.Builtin */
+.highlight .nc    { color: #66d9ef !important; } /* Name.Class */
+.highlight .no    { color: #66d9ef !important; } /* Name.Constant */
+.highlight .nd    { color: #a6e22e !important; } /* Name.Decorator */
+.highlight .ni    { color: #f8f8f2 !important; } /* Name.Entity */
+.highlight .ne    { color: #a6e22e !important; } /* Name.Exception */
+.highlight .nf    { color: #a6e22e !important; } /* Name.Function */
+.highlight .nl    { color: #f8f8f2 !important; } /* Name.Label */
+.highlight .nn    { color: #f8f8f2 !important; } /* Name.Namespace */
+.highlight .nx    { color: #a6e22e !important; } /* Name.Other */
+.highlight .py    { color: #f8f8f2 !important; } /* Name.Property */
+.highlight .nt    { color: #f92672 !important; } /* Name.Tag */
+.highlight .nv    { color: #f8f8f2 !important; } /* Name.Variable */
+.highlight .ow    { color: #f92672 !important; } /* Operator.Word */
+.highlight .w     { color: #f8f8f2 !important; } /* Text.Whitespace */
+.highlight .mf    { color: #ae81ff !important; } /* Literal.Number.Float */
+.highlight .mh    { color: #ae81ff !important; } /* Literal.Number.Hex */
+.highlight .mi    { color: #ae81ff !important; } /* Literal.Number.Integer */
+.highlight .mo    { color: #ae81ff !important; } /* Literal.Number.Oct */
+.highlight .sb    { color: #e6db74 !important; } /* Literal.String.Backtick */
+.highlight .sc    { color: #e6db74 !important; } /* Literal.String.Char */
+.highlight .sd    { color: #e6db74 !important; } /* Literal.String.Doc */
+.highlight .s2    { color: #e6db74 !important; } /* Literal.String.Double */
+.highlight .se    { color: #ae81ff !important; } /* Literal.String.Escape */
+.highlight .sh    { color: #e6db74 !important; } /* Literal.String.Heredoc */
+.highlight .si    { color: #e6db74 !important; } /* Literal.String.Interpol */
+.highlight .sx    { color: #e6db74 !important; } /* Literal.String.Other */
+.highlight .sr    { color: #e6db74 !important; } /* Literal.String.Regex */
+.highlight .s1    { color: #e6db74 !important; } /* Literal.String.Single */
+.highlight .ss    { color: #e6db74 !important; } /* Literal.String.Symbol */
+.highlight .bp    { color: #f8f8f2 !important; } /* Name.Builtin.Pseudo */
+.highlight .vc    { color: #f8f8f2 !important; } /* Name.Variable.Class */
+.highlight .vg    { color: #f8f8f2 !important; } /* Name.Variable.Global */
+.highlight .vi    { color: #f8f8f2 !important; } /* Name.Variable.Instance */
+.highlight .il    { color: #ae81ff !important; } /* Literal.Number.Integer.Long */
+
+/* 特定语言的特殊样式 */
+.language-python .highlight .k { color: #ff007f !important; } /* Python keywords */
+.language-python .highlight .s { color: #e6db74 !important; } /* Python strings */
+.language-python .highlight .c { color: #7ec699 !important; } /* Python comments */
+
+.language-javascript .highlight .k { color: #ff007f !important; } /* JS keywords */
+.language-javascript .highlight .s { color: #e6db74 !important; } /* JS strings */
+.language-javascript .highlight .c { color: #7ec699 !important; } /* JS comments */
+
+.language-bash .highlight .k { color: #00ff41 !important; } /* Bash keywords */
+.language-bash .highlight .s { color: #e6db74 !important; } /* Bash strings */
+.language-bash .highlight .c { color: #7ec699 !important; } /* Bash comments */
+
+.language-yaml .highlight .k { color: #00d9ff !important; } /* YAML keys */
+.language-yaml .highlight .s { color: #e6db74 !important; } /* YAML strings */
+
+/* 代码复制按钮 */
+.code-copy-btn {
+    position: absolute !important;
+    top: 0.5rem !important;
+    right: 0.5rem !important;
+    background: rgba(0, 255, 65, 0.2) !important;
+    color: #00ff41 !important;
+    border: 1px solid #00ff41 !important;
+    padding: 0.3rem 0.6rem !important;
+    border-radius: 3px !important;
+    font-size: 0.7rem !important;
+    font-family: 'Fira Code', monospace !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    opacity: 0 !important;
+    z-index: 10 !important;
+}
+
+pre:hover .code-copy-btn {
+    opacity: 1 !important;
+}
+
+.code-copy-btn:hover {
+    background: rgba(0, 255, 65, 0.3) !important;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5) !important;
+}
+
+.code-copy-btn.copied {
+    background: rgba(0, 217, 255, 0.3) !important;
+    border-color: #00d9ff !important;
+    color: #00d9ff !important;
+}
+
+/* 代码折叠功能 */
+.code-collapsible {
+    margin: 1.5rem 0 !important;
+    border: 1px solid #333 !important;
+    border-radius: 5px !important;
+    overflow: hidden !important;
+}
+
+.code-collapsible-header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #252525 100%) !important;
+    padding: 0.75rem 1rem !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    font-family: 'Fira Code', monospace !important;
+    color: #00ff41 !important;
+    font-size: 0.9rem !important;
+}
+
+.code-collapsible-header:hover {
+    background: rgba(0, 255, 65, 0.1) !important;
+}
+
+.code-collapsible-icon {
+    transition: transform 0.3s ease !important;
+}
+
+.code-collapsible.collapsed .code-collapsible-icon {
+    transform: rotate(-90deg) !important;
+}
+
+.code-collapsible-content {
+    max-height: 500px !important;
+    overflow: hidden !important;
+    transition: max-height 0.3s ease !important;
+}
+
+.code-collapsible.collapsed .code-collapsible-content {
+    max-height: 0 !important;
+}
+
+/* 代码行号增强 */
+.line-numbers {
+    counter-reset: line !important;
+}
+
+.line-numbers .line {
+    counter-increment: line !important;
+    display: block !important;
+    min-height: 1.5rem !important;
+}
+
+.line-numbers .line::before {
+    content: counter(line) !important;
+    display: inline-block !important;
+    width: 3em !important;
+    padding-right: 0.5em !important;
+    margin-right: 0.5em !important;
+    text-align: right !important;
+    color: #555 !important;
+    border-right: 1px solid #333 !important;
+    user-select: none !important;
+}
+
+/* 代码高亮行 */
+.highlight-line {
+    background: rgba(0, 255, 65, 0.1) !important;
+    display: block !important;
+    margin: 0 -1.5rem !important;
+    padding: 0 1.5rem !important;
+    border-left: 3px solid #00ff41 !important;
+    position: relative !important;
+}
+
+.highlight-line::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 3px !important;
+    background: #00ff41 !important;
+    box-shadow: 0 0 10px #00ff41 !important;
+}
+
+/* 终端风格代码块 */
+.code-terminal {
+    background: #000 !important;
+    border: 1px solid #00ff41 !important;
+    border-radius: 0 !important;
+    padding: 1rem !important;
+    margin: 1.5rem 0 !important;
+    font-family: 'Fira Code', monospace !important;
+    color: #00ff41 !important;
+    position: relative !important;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 255, 65, 0.2),
+        0 0 20px rgba(0, 255, 65, 0.2) !important;
+}
+
+.code-terminal::before {
+    content: 'user@hacker-blog:~$ ' !important;
+    color: #00ff41 !important;
+    font-weight: 600 !important;
+}
+
+.code-terminal .prompt {
+    color: #00ff41 !important;
+    font-weight: 600 !important;
+}
+
+.code-terminal .command {
+    color: #e0e0e0 !important;
+}
+
+.code-terminal .output {
+    color: #9d4edd !important;
+    margin-top: 0.5rem !important;
+}
+
+.code-terminal .error {
+    color: #ff0040 !important;
+    margin-top: 0.5rem !important;
+}
+
+/* 代码注释样式 */
+.code-comment {
+    color: #7ec699 !important;
+    font-style: italic !important;
+    opacity: 0.8 !important;
+}
+
+.code-comment::before {
+    content: '// ' !important;
+    color: #7ec699 !important;
+}
+
+/* 代码字符串样式 */
+.code-string {
+    color: #e6db74 !important;
+    position: relative !important;
+}
+
+.code-string::before,
+.code-string::after {
+    content: '"' !important;
+    color: #e6db74 !important;
+}
+
+/* 代码关键字样式 */
+.code-keyword {
+    color: #ff007f !important;
+    font-weight: 600 !important;
+}
+
+/* 代码函数样式 */
+.code-function {
+    color: #a6e22e !important;
+    font-weight: 500 !important;
+}
+
+/* 代码数字样式 */
+.code-number {
+    color: #ae81ff !important;
+}
+
+/* 代码运算符样式 */
+.code-operator {
+    color: #f92672 !important;
+    font-weight: 600 !important;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    pre {
+        padding: 1rem !important;
+        font-size: 0.8rem !important;
+        margin: 1rem 0 !important;
+    }
+    
+    pre::before {
+        font-size: 0.6rem !important;
+    }
+    
+    .code-copy-btn {
+        padding: 0.2rem 0.4rem !important;
+        font-size: 0.6rem !important;
+    }
+    
+    .line-numbers .line::before {
+        width: 2em !important;
+        font-size: 0.7rem !important;
+    }
+}
+
+/* 代码块动画效果 */
+@keyframes code-glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 65, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.6); }
+}
+
+pre:hover {
+    animation: code-glow 2s ease-in-out infinite;
+}
+
+/* 代码块语法错误提示 */
+.code-error {
+    background: rgba(255, 0, 64, 0.1) !important;
+    border: 1px solid #ff0040 !important;
+    border-radius: 3px !important;
+    padding: 0.1rem 0.3rem !important;
+    color: #ff0040 !important;
+    position: relative !important;
+}
+
+.code-error::after {
+    content: '✗' !important;
+    position: absolute !important;
+    right: -1rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #ff0040 !important;
+    font-weight: bold !important;
+}
+
+/* 代码块警告提示 */
+.code-warning {
+    background: rgba(255, 140, 0, 0.1) !important;
+    border: 1px solid #ff8c00 !important;
+    border-radius: 3px !important;
+    padding: 0.1rem 0.3rem !important;
+    color: #ff8c00 !important;
+    position: relative !important;
+}
+
+.code-warning::after {
+    content: '⚠' !important;
+    position: absolute !important;
+    right: -1rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #ff8c00 !important;
+    font-weight: bold !important;
+}
+
+/* 代码块成功提示 */
+.code-success {
+    background: rgba(0, 255, 65, 0.1) !important;
+    border: 1px solid #00ff41 !important;
+    border-radius: 3px !important;
+    padding: 0.1rem 0.3rem !important;
+    color: #00ff41 !important;
+    position: relative !important;
+}
+
+.code-success::after {
+    content: '✓' !important;
+    position: absolute !important;
+    right: -1rem !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: #00ff41 !important;
+    font-weight: bold !important;
+}

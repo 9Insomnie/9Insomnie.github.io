@@ -9,6 +9,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/hacker-style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/code-highlight.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/mobile-optimization.css' | relative_url }}">
     
     <!-- SEO and Feed -->
     {% seo %}
@@ -20,6 +22,13 @@
     <!-- Hacker Theme Meta -->
     <meta name="theme-color" content="#00ff41">
     <meta name="apple-mobile-web-app-status-bar-style" content="#00ff41">
+    
+    <!-- Mobile Optimization Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
 </head>
 <body>
     {% include hacker-header.html %}
