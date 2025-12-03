@@ -1,0 +1,178 @@
+---
+layout: default
+title: 文章归档
+permalink: /archive/
+---
+
+<div class="archive">
+    <h1>文章归档</h1>
+    
+    {% assign posts_by_year = site.posts | group_by_exp: 'post', 'post.date | date: "%Y"' %}
+    
+    {% for year_group in posts_by_year %}
+        <div class="year-group">
+            <h2 class="year-title">{{ year_group.name }} 年</h2>
+            
+            {% assign posts_by_month = year_group.items | group_by_exp: 'post', 'post.date | date: "%m"' %}
+            
+            {% for month_group in posts_by_month %}
+                <div class="month-group">
+                    <h3 class="month-title">
+                        {% case month_group.name %}
+                            {% when '01' %}一月
+                            {% when '02' %}二月
+                            {% when '03' %}三月
+                            {% when '04' %}四月
+                            {% when '05' %}五月
+                            {% when '06' %}六月
+                            {% when '07' %}七月
+                            {% when '08' %}八月
+                            {% when '09' %}九月
+                            {% when '10' %}十月
+                            {% when '11' %}十一月
+                            {% when '12' %}十二月
+                        {% endcase %}
+                    </h3>
+                    
+                    <ul class="post-list">
+                        {% for post in month_group.items %}
+                            <li class="post-item">
+                                <time class="post-date" datetime="{{ post.date | date_to_xmlschema }}">
+                                    {{ post.date | date: "%m月%d日" }}
+                                </time>
+                                <a href="{{ post.url | relative_url }}" class="post-link">
+                                    {{ post.title }}
+                                </a>
+                                {% if post.categories.size > 0 %}
+                                    <span class="post-categories">
+                                        {% for category in post.categories %}
+                                            <a href="{{ '/categories/' | append: category | relative_url }}" class="category-tag">{{ category }}</a>
+                                        {% endfor %}
+                                    </span>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+    
+    {% if site.posts.size == 0 %}
+        <div class="empty-state">
+            <p>还没有文章，开始写第一篇文章吧！</p>
+            <a href="https://github.com/{{ site.github_username }}/{{ site.repository_name }}/new/main/_posts" class="btn btn-primary" target="_blank">写第一篇文章</a>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+.archive {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.year-group {
+    margin-bottom: 3rem;
+}
+
+.year-title {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #007bff;
+}
+
+.month-group {
+    margin-bottom: 2rem;
+}
+
+.month-title {
+    color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.post-list {
+    list-style: none;
+    padding: 0;
+}
+
+.post-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.post-date {
+    color: #999;
+    font-size: 0.9rem;
+    margin-right: 1rem;
+    min-width: 80px;
+}
+
+.post-link {
+    color: #333;
+    text-decoration: none;
+    flex: 1;
+    transition: color 0.3s ease;
+}
+
+.post-link:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+
+.post-categories {
+    margin-left: 1rem;
+}
+
+.category-tag {
+    display: inline-block;
+    background: #f0f0f0;
+    color: #666;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    margin-left: 0.3rem;
+    transition: background-color 0.3s ease;
+}
+
+.category-tag:hover {
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.empty-state p {
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .post-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .post-date {
+        margin-bottom: 0.5rem;
+    }
+    
+    .post-categories {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}
+</style>
