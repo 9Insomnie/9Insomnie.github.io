@@ -17,6 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
+          submodules: recursive
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -26,7 +27,9 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          cd themes/hexploit && npm install
+          cd themes/hexploit
+          npm install
+          npm run build
 
       - name: Build
         run: npm run build
