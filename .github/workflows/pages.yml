@@ -17,7 +17,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: main
-          submodules: recursive
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -27,11 +26,14 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          cd themes/hexploit
-          npm install
-          npm run build
+          cd themes/hexploit && npm install
 
-      - name: Build
+      - name: Build theme CSS
+        run: |
+          cd themes/hexploit
+          npx tailwindcss -i ./source/css/styles.css -o ./source/css/tailwind.css
+
+      - name: Build site
         run: npm run build
 
       - name: Upload artifact
