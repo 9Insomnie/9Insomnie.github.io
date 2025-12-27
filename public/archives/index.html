@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n0irx | 9Insomnie - Archives</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/tailwind.css">
+    
+<header class="bg-black text-hacker-white py-4 font-dos font-extrabold">
+    <div class="container mx-auto flex items-center justify-between space-x-8">
+    
+      <h1 class="text-2xl font-bold ml-[100px] md:ml-0 animate-pulse text-hacker-color1 md:mr-[20%]">
+        <a href="/" class="hover:text-white transition-colors select-none">
+          n0irx | 9Insomnie
+        </a>
+      </h1>
+  
+    <!-- 大屏幕 -->
+      <nav class="hidden md:block">
+        <ul class="flex space-x-6">
+          
+            <li>
+              <a href="/" class="select-none text-lg hover:text-hacker-color1 transition-all hover:underline decoration-wavy duration-300 text-hacker-color3">
+                首页
+              </a>
+            </li>
+          
+            <li>
+              <a href="/archives" class="select-none text-lg hover:text-hacker-color1 transition-all hover:underline decoration-wavy duration-300 text-hacker-color3">
+                归档
+              </a>
+            </li>
+          
+            <li>
+              <a href="/categories" class="select-none text-lg hover:text-hacker-color1 transition-all hover:underline decoration-wavy duration-300 text-hacker-color3">
+                分类
+              </a>
+            </li>
+          
+            <li>
+              <a href="/tags" class="select-none text-lg hover:text-hacker-color1 transition-all hover:underline decoration-wavy duration-300 text-hacker-color3">
+                标签
+              </a>
+            </li>
+          
+            <li>
+              <a href="/about" class="select-none text-lg hover:text-hacker-color1 transition-all hover:underline decoration-wavy duration-300 text-hacker-color3">
+                关于
+              </a>
+            </li>
+          
+            <li>
+              <a target="_blank" rel="noopener" href="https://github.com/9Insomnie" class="select-none text-lg hover:text-hacker-color1 transition-all hover:underline decoration-wavy duration-300 text-hacker-color3">
+                GitHub
+              </a>
+            </li>
+          
+            <li>
+              <a href="/rss.xml" class="select-none text-lg hover:text-hacker-color1 transition-all hover:underline decoration-wavy duration-300 text-hacker-color3">
+                RSS
+              </a>
+            </li>
+          
+        </ul>
+      </nav>
+  
+      <!-- 小屏幕 -->
+      <button id="menu-toggle" class="block md:hidden text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  
+    <!-- 折叠菜单 -->
+    <nav id="mobile-menu" class="hidden bg-black">
+      <ul class="space-y-2 py-4 px-6">
+        
+          <li>
+            <a href="/" class="block text-white hover:text-hacker-color1 transition-colors">
+              首页
+            </a>
+          </li>
+        
+          <li>
+            <a href="/archives" class="block text-white hover:text-hacker-color1 transition-colors">
+              归档
+            </a>
+          </li>
+        
+          <li>
+            <a href="/categories" class="block text-white hover:text-hacker-color1 transition-colors">
+              分类
+            </a>
+          </li>
+        
+          <li>
+            <a href="/tags" class="block text-white hover:text-hacker-color1 transition-colors">
+              标签
+            </a>
+          </li>
+        
+          <li>
+            <a href="/about" class="block text-white hover:text-hacker-color1 transition-colors">
+              关于
+            </a>
+          </li>
+        
+          <li>
+            <a target="_blank" rel="noopener" href="https://github.com/9Insomnie" class="block text-white hover:text-hacker-color1 transition-colors">
+              GitHub
+            </a>
+          </li>
+        
+          <li>
+            <a href="/rss.xml" class="block text-white hover:text-hacker-color1 transition-colors">
+              RSS
+            </a>
+          </li>
+        
+      </ul>
+    </nav>
+  
+    <!-- RSS Link -->
+    <link rel="alternate" type="application/rss+xml" title=" RSS" href="/rss.xml" />
+  </header>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="/js/search.js"></script>
+  <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const menuToggle = document.getElementById("menu-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    menuToggle.addEventListener("click", () => {
+        if (mobileMenu.classList.contains("hidden")) {
+        mobileMenu.classList.remove("hidden");
+        } else {
+        mobileMenu.classList.add("hidden");
+        }
+    });
+    });
+
+  </script>
+
+
+<meta name="generator" content="Hexo 8.1.1"></head>
+<body class="bg-black container mx-auto">
+    <h1 class="text-4xl text-hacker-color1 font-bold font-dos">Archives</h1>
+    <hr class="w-full border-t-2 border-line-color border-dashed">
+    <div class="container mx-auto flex bg-black min-h-screen">
+        <div class="w-full">
+            
+
+            <div class="archive-list text-lg mt-8">
+            
+                <section class="mb-6">
+                <h2 class="text-2xl font-bold text-hacker-color1 mb-4">2025</h2>
+                <ul class="ml-4">
+                    
+                    <li class="mb-2">
+                        <span class="text-hacker-color3 ">2025-12-28 >> </span>
+                        <a class="text-hacker-color1 hover:underline" href="/2025/12/28/%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%8E%A7%E5%88%B6%EF%BC%88C2%EF%BC%89%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E6%9E%84%E5%BB%BA%E4%B8%8E%E6%B5%81%E9%87%8F%E9%9A%90%E8%97%8F%E6%8A%80%E6%9C%AF/">命令与控制（C2）基础设施构建与流量隐藏技术</a>
+                    </li>
+                    
+                </ul>
+                </section>
+            
+            </div>
+
+
+        </div>
+        
+    <div class="w-1/3 hidden md:block space-y-4 mt-8">
+      
+        
+          <!-- 搜索框 -->
+          <input type="text" id="search-input" placeholder="Search..." class="w-full p-2.5 text-lg mb-5 border-2 border-line-color rounded bg-black text-white placeholder-gray-400"/>
+          <div id="search-results"></div>
+        
+  
+        
+  
+        
+  
+        
+  
+        
+  
+      
+        
+  
+        
+          <!-- 公告栏 -->
+          <div class=" text-white p-4 rounded-md border-2 border-dashed border-line-color mb-4">
+            <h3 class="font-bold text-lg text-hacker-color1">Notice</h3>
+            <p class="mt-4"> 🕶️ 欢迎来到 n0irx 的安全博客</br></br> 🎯 专注红队技术、渗透测试与安全研究</br></br> ⚠️ 所有内容仅供学习研究使用</br> 请勿用于非法用途 </p>
+          </div>
+        
+  
+        
+  
+        
+  
+        
+  
+      
+        
+  
+        
+  
+        
+          <!-- 分类部分 -->
+          <h3 class="text-hacker-color1 font-bold text-lg">Categories</h3>
+          <div>
+            
+              <a href="https://9insomnie.github.io/categories/技术文章/" class="text-hacker-color3 hover:text-white">
+                技术文章 (1)
+              </a>
+              <br />
+            
+            
+          </div>
+          <hr class="w-full border-t-2 border-line-color border-dashed">
+        
+  
+        
+  
+        
+  
+      
+        
+  
+        
+  
+        
+  
+        
+          <!-- 标签部分 -->
+          <h3 class="text-hacker-color1 font-bold text-lg">Tags</h3>
+          <div class="flex flex-wrap justify-start items-center">
+            
+              <a href="https://9insomnie.github.io/tags/标签1/" class="text-hacker-color3 hover:bg-hacker-hover-color hover:text-white block border border-hacker-color3 hover:border-dotted rounded-sm py-0.5 px-2 mr-4 mb-2">
+                标签1 <sub>1</sub>
+              </a>
+              <br />
+            
+              <a href="https://9insomnie.github.io/tags/标签2/" class="text-hacker-color3 hover:bg-hacker-hover-color hover:text-white block border border-hacker-color3 hover:border-dotted rounded-sm py-0.5 px-2 mr-4 mb-2">
+                标签2 <sub>1</sub>
+              </a>
+              <br />
+            
+            
+          </div>
+          <hr class="w-full border-t-2 border-line-color border-dashed">
+        
+  
+        
+  
+      
+        
+  
+        
+  
+        
+  
+        
+  
+        
+          <!-- 链接部分 -->
+          <h3 class="text-hacker-color1 font-bold text-lg">Links</h3>
+          <div>
+            
+              <a href="https://github.com/9Insomnie" target="_blank" class="text-hacker-color3 hover:text-white">
+                GitHub
+              </a>
+              <br />
+            
+              <a href="https://hackthebox.com/" target="_blank" class="text-hacker-color3 hover:text-white">
+                HackTheBox
+              </a>
+              <br />
+            
+              <a href="https://hackerone.com/" target="_blank" class="text-hacker-color3 hover:text-white">
+                HackerOne
+              </a>
+              <br />
+            
+              <a href="https://www.m310ct.com/notes" target="_blank" class="text-hacker-color3 hover:text-white">
+                Hacker Notes
+              </a>
+              <br />
+            
+          </div>
+          <hr class="w-full border-t-2 border-line-color border-dashed">
+        
+  
+      
+    </div>
+  
+  
+  
+  
+  
+
+
+
+
+
+
+    </div>
+    <footer class="bg-black text-gray-400 py-4">
+ <div class="container mx-auto text-center">
+  <p>© <span id="current-year"></span>  9Insomnie 
+    <br> Powered by <a class="hover:text-white duration-150 hover:underline decoration-slice" target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a class="hover:text-white duration-150 hover:underline decoration-slice" target="_blank" rel="noopener" href="https://github.com/m310ct/hexo-theme-hexploit">Hexpolit</a></p>
+ </div>
+</footer>
+
+<script> 
+ document.getElementById("current-year").textContent = new Date().getFullYear();
+</script>
+<script>
+window.MathJax = {
+tex: {
+  inlineMath: [['$', '$'], ['\\(', '\\)']]  // 启用 $...$ 和 \( ... \)
+},
+svg: {
+  fontCache: 'global'
+}
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+
+
+</body>
+</html>
