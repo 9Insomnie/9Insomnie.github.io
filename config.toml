@@ -31,7 +31,7 @@ copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_
   gitUrl = "https://github.com/9Insomnie/9Insomnie.github.io/commit/"
 
   [params.logo]
-    logoText = "9Insomnie's Blog"
+    logoText = "Security Chronicles"
     logoHomeLink = "/"
 
   # Social icons
