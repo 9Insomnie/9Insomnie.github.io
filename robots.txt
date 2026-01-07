@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://casvancooten.com/sitemap.xml
+Sitemap: https://9insomnie.github.io/sitemap.xml
