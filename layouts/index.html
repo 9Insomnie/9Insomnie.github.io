@@ -28,11 +28,12 @@
     </div>
 
     {{ $pages := where .Site.RegularPages "Section" "posts" }}
+    {{ $grouped := $pages.GroupByDate "2006" }}
     {{ if $pages }}
     <div class="content">
         <main class="posts">
             <h2 style="margin-bottom: 1rem;">Latest Posts</h2>
-            {{ range first 5 $pages.GroupByDate "2006" }}
+            {{ range first 5 $grouped }}
                 <div class="posts-group">
                     <div class="post-year">{{ .Key }}</div>
                     <ul class="posts-list">
