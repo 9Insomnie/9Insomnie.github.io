@@ -1,232 +1,48 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 9Insomnie</title><link>https://9insomnie.github.io/posts/</link><description>Recent content in Posts on 9Insomnie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener"&gt;CC BY-NC 4.0&lt;/a&gt;</copyright><lastBuildDate>Thu, 16 Jul 2026 10:00:00 +0800</lastBuildDate><atom:link href="https://9insomnie.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Offensive Security Workspace - AI 辅助渗透测试工作空间</title><link>https://9insomnie.github.io/posts/2026/07/offensive-security-workspace-ai-%E8%BE%85%E5%8A%A9%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4/</link><pubDate>Thu, 16 Jul 2026 10:00:00 +0800</pubDate><guid>https://9insomnie.github.io/posts/2026/07/offensive-security-workspace-ai-%E8%BE%85%E5%8A%A9%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4/</guid><description>&lt;h2 id="项目概述"&gt;项目概述&lt;/h2&gt;
-&lt;p&gt;Offensive Security Workspace 是一个专为授权安全测试设计的 AI 辅助渗透测试工作空间。它将结构化的工作流程、丰富的漏洞检测技能库、可复用的知识库以及标准化的报告模板整合在一起，为安全研究人员提供一个高效、规范的测试环境。&lt;/p&gt;
-&lt;h3 id="核心理念"&gt;核心理念&lt;/h3&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 9Insomnie</title><link>https://9insomnie.github.io/posts/</link><description>Recent content in Posts on 9Insomnie</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener"&gt;CC BY-NC 4.0&lt;/a&gt;</copyright><lastBuildDate>Thu, 16 Jul 2026 10:00:00 +0800</lastBuildDate><atom:link href="https://9insomnie.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Building an AI-Assisted Penetration Testing Workspace: Why I Created It</title><link>https://9insomnie.github.io/posts/2026/07/building-an-ai-assisted-penetration-testing-workspace-why-i-created-it/</link><pubDate>Thu, 16 Jul 2026 10:00:00 +0800</pubDate><guid>https://9insomnie.github.io/posts/2026/07/building-an-ai-assisted-penetration-testing-workspace-why-i-created-it/</guid><description>&lt;h2 id="the-problem-with-chaotic-pen-testing"&gt;The Problem with Chaotic Pen Testing&lt;/h2&gt;
+&lt;p&gt;Over the years, I&amp;rsquo;ve worked on dozens of penetration testing engagements, and one pattern kept bothering me: every time I started a new target, I was reinventing the wheel.&lt;/p&gt;
+&lt;p&gt;The typical workflow looked something like this:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;授权优先&lt;/strong&gt;：所有测试必须在明确的授权范围内进行&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;证据驱动&lt;/strong&gt;：每个漏洞发现都需要可复现的证明&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;知识复用&lt;/strong&gt;：跨目标的经验和攻击模式可以积累和复用&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;规范输出&lt;/strong&gt;：标准化的漏洞报告格式确保专业交付&lt;/li&gt;
+&lt;li&gt;Run a few tools, dump the output into a folder&lt;/li&gt;
+&lt;li&gt;Scribble notes in random text files&lt;/li&gt;
+&lt;li&gt;Find a vulnerability, write a quick PoC, forget where I saved it&lt;/li&gt;
+&lt;li&gt;Start the next target, do it all over again&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="项目结构"&gt;项目结构&lt;/h2&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Offensive Security/
-├── AGENTS.md # 顶层智能体指令
-├── README.md # 工作空间概览和快速入门
-├── HUNT_INDEX.md # 漏洞类别到检测技能的快速映射
-├── .gitignore # 排除敏感信息和证据
-├── workflows/ # 分步工作流程文档
-│ ├── new_target.md # 新目标初始化流程
-│ ├── parallel_recon.md # 并行侦察流程
-│ ├── hunt_dispatch.md # 漏洞检测调度流程
-│ └── collect_evidence.md # 证据收集流程
-├── kb/ # 跨目标知识库（可复用）
-│ ├── stacks/ # 按技术栈分类的知识
-│ ├── patterns/ # 已验证的漏洞模式和 PoC
-│ └── targets/ # 完成的目标分析报告
-├── targets/ # 每个测试任务的工作目录
-├── tools/ # 自定义脚本、漏洞利用工具、辅助工具
-├── payloads/ # 可复用的 payload 集合
-├── templates/ # 报告和发现模板
-└── evidence/ # 截图、捕获数据、原始输出
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="核心功能"&gt;核心功能&lt;/h2&gt;
-&lt;h3 id="1-结构化工作流程"&gt;1. 结构化工作流程&lt;/h3&gt;
-&lt;p&gt;项目提供四个核心工作流程，确保测试过程的系统性和完整性：&lt;/p&gt;</description><content type="html"><![CDATA[<h2 id="项目概述">项目概述</h2>
-<p>Offensive Security Workspace 是一个专为授权安全测试设计的 AI 辅助渗透测试工作空间。它将结构化的工作流程、丰富的漏洞检测技能库、可复用的知识库以及标准化的报告模板整合在一起，为安全研究人员提供一个高效、规范的测试环境。</p>
-<h3 id="核心理念">核心理念</h3>
+&lt;p&gt;The knowledge I gained from one engagement rarely carried over to the next. Attack patterns I&amp;rsquo;d figured out on a Spring Boot app were lost when I moved to a Laravel target. PoCs I&amp;rsquo;d crafted sat forgotten in some archive folder. Every recon started from scratch.&lt;/p&gt;</description><content type="html"><![CDATA[<h2 id="the-problem-with-chaotic-pen-testing">The Problem with Chaotic Pen Testing</h2>
+<p>Over the years, I&rsquo;ve worked on dozens of penetration testing engagements, and one pattern kept bothering me: every time I started a new target, I was reinventing the wheel.</p>
+<p>The typical workflow looked something like this:</p>
 <ul>
-<li><strong>授权优先</strong>：所有测试必须在明确的授权范围内进行</li>
-<li><strong>证据驱动</strong>：每个漏洞发现都需要可复现的证明</li>
-<li><strong>知识复用</strong>：跨目标的经验和攻击模式可以积累和复用</li>
-<li><strong>规范输出</strong>：标准化的漏洞报告格式确保专业交付</li>
+<li>Run a few tools, dump the output into a folder</li>
+<li>Scribble notes in random text files</li>
+<li>Find a vulnerability, write a quick PoC, forget where I saved it</li>
+<li>Start the next target, do it all over again</li>
 </ul>
-<h2 id="项目结构">项目结构</h2>
-<pre tabindex="0"><code>Offensive Security/
-├── AGENTS.md            # 顶层智能体指令
-├── README.md            # 工作空间概览和快速入门
-├── HUNT_INDEX.md        # 漏洞类别到检测技能的快速映射
-├── .gitignore           # 排除敏感信息和证据
-├── workflows/           # 分步工作流程文档
-│   ├── new_target.md    # 新目标初始化流程
-│   ├── parallel_recon.md    # 并行侦察流程
-│   ├── hunt_dispatch.md     # 漏洞检测调度流程
-│   └── collect_evidence.md  # 证据收集流程
-├── kb/                  # 跨目标知识库（可复用）
-│   ├── stacks/          # 按技术栈分类的知识
-│   ├── patterns/        # 已验证的漏洞模式和 PoC
-│   └── targets/         # 完成的目标分析报告
-├── targets/             # 每个测试任务的工作目录
-├── tools/               # 自定义脚本、漏洞利用工具、辅助工具
-├── payloads/            # 可复用的 payload 集合
-├── templates/           # 报告和发现模板
-└── evidence/            # 截图、捕获数据、原始输出
-</code></pre><h2 id="核心功能">核心功能</h2>
-<h3 id="1-结构化工作流程">1. 结构化工作流程</h3>
-<p>项目提供四个核心工作流程，确保测试过程的系统性和完整性：</p>
-<h4 id="新目标初始化-workflowsnew_targetmd">新目标初始化 (<code>workflows/new_target.md</code>)</h4>
-<ul>
-<li>建立目标工作目录结构</li>
-<li>确认授权范围（Rules of Engagement）</li>
-<li>配置测试环境</li>
-</ul>
-<h4 id="并行侦察-workflowsparallel_reconmd">并行侦察 (<code>workflows/parallel_recon.md</code>)</h4>
-<ul>
-<li>多维度并行信息收集</li>
-<li>技术栈识别</li>
-<li>攻击面映射</li>
-</ul>
-<h4 id="漏洞检测调度-workflowshunt_dispatchmd">漏洞检测调度 (<code>workflows/hunt_dispatch.md</code>)</h4>
-<ul>
-<li>根据侦察结果选择合适的检测技能</li>
-<li>按优先级排序攻击路径</li>
-<li>执行针对性漏洞检测</li>
-</ul>
-<h4 id="证据收集-workflowscollect_evidencemd">证据收集 (<code>workflows/collect_evidence.md</code>)</h4>
-<ul>
-<li>规范化证据存储</li>
-<li>保持原始时间戳和文件名</li>
-<li>生成可复现的漏洞证明</li>
-</ul>
-<h3 id="2-丰富的漏洞检测技能库">2. 丰富的漏洞检测技能库</h3>
-<p><code>HUNT_INDEX.md</code> 定义了超过 50 种漏洞检测技能，涵盖：</p>
-<table>
-	<thead>
-			<tr>
-					<th>类别</th>
-					<th>示例技能</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td>Web 应用漏洞</td>
-					<td>SQL 注入、XSS、CSRF、SSRF、文件上传</td>
-			</tr>
-			<tr>
-					<td>认证与授权</td>
-					<td>认证绕过、会话管理、MFA 绕过</td>
-			</tr>
-			<tr>
-					<td>云与基础设施</td>
-					<td>AWS 配置错误、Kubernetes 安全、CI/CD 安全</td>
-			</tr>
-			<tr>
-					<td>平台框架</td>
-					<td>Spring Boot、Laravel、Next.js、ASP.NET</td>
-			</tr>
-			<tr>
-					<td>Web3</td>
-					<td>智能合约审计、Meme 币审计</td>
-			</tr>
-			<tr>
-					<td>侦察与 OSINT</td>
-					<td>子域名发现、TLS 分析、开源情报</td>
-			</tr>
-	</tbody>
-</table>
-<p>每个技能都是模块化的，可以根据目标技术栈灵活加载。</p>
-<h3 id="3-跨目标知识库">3. 跨目标知识库</h3>
-<p><code>kb/</code> 目录提供可复用的安全知识：</p>
-<ul>
-<li><strong>技术栈知识</strong> (<code>kb/stacks/</code>): 针对特定技术的安全测试要点</li>
-<li><strong>漏洞模式</strong> (<code>kb/patterns/</code>): 已验证的漏洞利用模式和 PoC</li>
-<li><strong>目标档案</strong> (<code>kb/targets/</code>): 完成的目标分析报告</li>
-</ul>
-<p><strong>经验法则</strong>：如果某个漏洞在两个相同技术栈的目标上被确认，那么它很可能也存在于第三个目标上，除非有明确证据表明不存在。</p>
-<h3 id="4-标准化输出格式">4. 标准化输出格式</h3>
-<p>每个漏洞发现都必须包含：</p>
-<table>
-	<thead>
-			<tr>
-					<th>字段</th>
-					<th>描述</th>
-			</tr>
-	</thead>
-	<tbody>
-			<tr>
-					<td>Summary</td>
-					<td>一段话概述</td>
-			</tr>
-			<tr>
-					<td>Impact</td>
-					<td>攻击者能获得什么</td>
-			</tr>
-			<tr>
-					<td>Root Cause</td>
-					<td>为什么存在这个漏洞</td>
-			</tr>
-			<tr>
-					<td>Trigger Conditions</td>
-					<td>触发漏洞的条件</td>
-			</tr>
-			<tr>
-					<td>Proof of Concept</td>
-					<td>分步复现步骤</td>
-			</tr>
-			<tr>
-					<td>Payload</td>
-					<td>提供可用的 payload</td>
-			</tr>
-			<tr>
-					<td>Detection</td>
-					<td>防御者如何检测</td>
-			</tr>
-			<tr>
-					<td>Remediation</td>
-					<td>最小化代码修复</td>
-			</tr>
-			<tr>
-					<td>References</td>
-					<td>相关 CVE/CWE/OWASP</td>
-			</tr>
-	</tbody>
-</table>
-<h2 id="使用场景">使用场景</h2>
-<h3 id="授权渗透测试">授权渗透测试</h3>
-<p>为客户提供专业的渗透测试服务，从侦察到报告生成的完整流程。</p>
-<h3 id="安全研究">安全研究</h3>
-<p>研究新型漏洞利用技术，积累可复用的攻击模式和 PoC。</p>
-<h3 id="bug-bounty">Bug Bounty</h3>
-<p>参与众测平台的安全测试，高效定位和报告漏洞。</p>
-<h3 id="红队演练">红队演练</h3>
-<p>企业内部红队活动，模拟真实攻击场景。</p>
-<h2 id="安全实践">安全实践</h2>
-<h3 id="证据处理">证据处理</h3>
-<ul>
-<li>原始证据存储在 <code>evidence/&lt;target-id&gt;/</code> 或 <code>targets/&lt;id&gt;/exploits/</code></li>
-<li>永远不要提交密钥、凭证或敏感信息</li>
-<li>保持原始时间戳和文件名</li>
-<li>分享前脱敏第三方 PII</li>
-<li>每个 Verified 或 Likely 发现必须引用证据文件</li>
-</ul>
-<h3 id="通信原则">通信原则</h3>
-<ul>
-<li>简洁明了</li>
-<li>明确陈述假设</li>
-<li>标记不确定的结论</li>
-<li>区分验证级别：Verified / Likely / Possible / Speculative</li>
-</ul>
-<h3 id="禁止行为">禁止行为</h3>
-<ul>
-<li>永远不要伪造漏洞</li>
-<li>没有证据时永远不要声称成功利用</li>
-<li>永远不要省略假设</li>
-<li>永远不要隐藏不确定性</li>
-<li>永远要解释推理过程</li>
-</ul>
-<h2 id="技术实现">技术实现</h2>
-<ul>
-<li>代码生成使用 Python 3.11+</li>
-<li>使用类型注解</li>
-<li>添加日志记录</li>
-<li>支持命令行参数</li>
-<li>失败时提供有意义的错误信息</li>
-<li>脚本尽可能幂等</li>
-</ul>
-<h2 id="快速开始">快速开始</h2>
-<ol>
-<li><strong>新任务</strong>：按照 <code>workflows/new_target.md</code> 创建 <code>targets/&lt;id&gt;/</code></li>
-<li><strong>侦察</strong>：按照 <code>workflows/parallel_recon.md</code> 执行</li>
-<li><strong>检测</strong>：通过 <code>workflows/hunt_dispatch.md</code> 和 <code>HUNT_INDEX.md</code> 调度</li>
-<li><strong>证据</strong>：按照 <code>workflows/collect_evidence.md</code> 收集</li>
-</ol>
-<h2 id="总结">总结</h2>
-<p>Offensive Security Workspace 通过结构化的工作流程、丰富的技能库、可复用的知识库和标准化的输出格式，为安全研究人员提供了一个高效、规范的渗透测试环境。它强调授权测试、证据驱动和知识积累，帮助安全团队提升测试效率和专业度。</p>
+<p>The knowledge I gained from one engagement rarely carried over to the next. Attack patterns I&rsquo;d figured out on a Spring Boot app were lost when I moved to a Laravel target. PoCs I&rsquo;d crafted sat forgotten in some archive folder. Every recon started from scratch.</p>
+<p>I knew there had to be a better way.</p>
+<h2 id="what-i-wanted-to-fix">What I Wanted to Fix</h2>
+<p>Three specific pain points drove me to build this workspace.</p>
+<h3 id="1-knowledge-doesnt-accumulate">1. Knowledge Doesn&rsquo;t Accumulate</h3>
+<p>Security testing generates a lot of context — what worked, what didn&rsquo;t, which endpoints were interesting, which techniques bypassed the WAF. But in a traditional setup, most of this context evaporates after the engagement ends.</p>
+<p>I wanted a system where findings from one target could inform the next. If I confirmed an IDOR pattern on a Node.js API, that pattern should be referenceable when I see a similar API six months later. The workspace needed a persistent knowledge base where attack patterns, tech-stack notes, and verified PoCs could accumulate over time.</p>
+<h3 id="2-the-process-was-too-ad-hoc">2. The Process Was Too Ad-Hoc</h3>
+<p>Pen testing requires systematic coverage, but without a structured workflow, it&rsquo;s easy to miss things. You jump between tasks — a bit of recon here, a quick test there — and before you know it, you&rsquo;ve tested the interesting stuff but skipped the boring-but-critical checks.</p>
+<p>I wanted a workflow that enforced structure without being rigid. A clear path from recon to exploitation to evidence collection, with checkpoints along the way. Something that said &ldquo;you&rsquo;ve done recon, now here&rsquo;s what to do with it&rdquo; rather than leaving me staring at a terminal wondering what&rsquo;s next.</p>
+<h3 id="3-tool-sprawl-kills-productivity">3. Tool Sprawl Kills Productivity</h3>
+<p>Every security researcher has a tools directory that looks like a flea market. <code>tools/</code> filled with random scripts, half-baked exploits, and PoCs from five years ago that may or may not still work. Finding the right tool for the job takes as long as doing the job itself.</p>
+<p>I wanted to move from a tool-centric workflow to a skill-centric one. Instead of asking &ldquo;which tool do I use for SSRF?&rdquo;, ask &ldquo;what&rsquo;s my SSRF methodology?&rdquo; and let the workspace load the right techniques, payloads, and references automatically.</p>
+<h2 id="how-the-workspace-addresses-these-problems">How the Workspace Addresses These Problems</h2>
+<p>The workspace isn&rsquo;t revolutionary — it&rsquo;s just organized around a few key principles that fix the common failure points I kept hitting.</p>
+<h3 id="structured-target-lifecycle">Structured Target Lifecycle</h3>
+<p>Every engagement gets a dedicated directory under <code>targets/</code> with a standardized layout — scope, recon, findings, exploits, notes, report. Nothing gets lost because there&rsquo;s a designated home for everything. The workflow files (<code>workflows/new_target.md</code>, <code>workflows/parallel_recon.md</code>, etc.) guide you through each phase without dictating exactly what to do.</p>
+<h3 id="the-skill-library-replaces-tool-scatters">The Skill Library Replaces Tool Scatters</h3>
+<p>Instead of hunting for the right script, I mapped vulnerability classes to hunt skills in <code>HUNT_INDEX.md</code>. When recon surfaces a technology stack, I load the matching skill — and it brings the methodology, payloads, and references for that vulnerability class. It&rsquo;s not magic, it&rsquo;s just organized.</p>
+<p>For example, when I see a GraphQL endpoint, I load <code>hunt-graphql</code>. It has GraphQL-specific introspection queries, batching attack patterns, and known mitigation bypasses. No more Googling &ldquo;how to test GraphQL&rdquo; every single time.</p>
+<h3 id="the-knowledge-base-grows-over-time">The Knowledge Base Grows Over Time</h3>
+<p>The <code>kb/</code> directory is designed to accumulate. Technical stack notes go in <code>kb/stacks/</code>. Verified vulnerability patterns go in <code>kb/patterns/</code>. Completed target writeups go in <code>kb/targets/</code>. Each engagement adds to the collective knowledge rather than starting from zero.</p>
+<p>A simple heuristic drives this: if a vulnerability was confirmed on two targets of the same stack, it&rsquo;s likely present on the third until proven otherwise. The knowledge base makes that heuristic actionable.</p>
+<h2 id="what-its-not">What It&rsquo;s Not</h2>
+<p>This workspace isn&rsquo;t a replacement for skill or experience. It doesn&rsquo;t automate finding vulnerabilities. What it does is reduce the overhead around the actual work — the organizing, the remembering, the context-switching — so you can focus on what matters: understanding the target and finding the flaws.</p>
+<p>It&rsquo;s also not a &ldquo;beginner&rsquo;s toolkit.&rdquo; It assumes you know how to test; it just helps you do it more systematically.</p>
+<h2 id="the-result">The Result</h2>
+<p>After using this workspace for a while, the difference is noticeable. Starting a new target isn&rsquo;t a blank slate anymore — it&rsquo;s &ldquo;I&rsquo;ve seen this stack before, let me check what I learned last time.&rdquo; Findings don&rsquo;t disappear after the engagement ends; they become reference material for the next one. The process has structure without being suffocating.</p>
+<p>That&rsquo;s really the whole point. Less overhead, more accumulated knowledge, fewer things falling through the cracks.</p>
 ]]></content></item></channel></rss>

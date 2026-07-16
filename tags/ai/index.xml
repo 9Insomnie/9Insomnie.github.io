@@ -1,32 +1,10 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AI on 9Insomnie</title><link>https://9insomnie.github.io/tags/ai/</link><description>Recent content in AI on 9Insomnie</description><generator>Hugo</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener"&gt;CC BY-NC 4.0&lt;/a&gt;</copyright><lastBuildDate>Fri, 17 Jul 2026 00:33:24 +0800</lastBuildDate><atom:link href="https://9insomnie.github.io/tags/ai/index.xml" rel="self" type="application/rss+xml"/><item><title>Offensive Security Workspace - AI 辅助渗透测试工作空间</title><link>https://9insomnie.github.io/posts/2026/07/offensive-security-workspace-ai-%E8%BE%85%E5%8A%A9%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4/</link><pubDate>Thu, 16 Jul 2026 10:00:00 +0800</pubDate><guid>https://9insomnie.github.io/posts/2026/07/offensive-security-workspace-ai-%E8%BE%85%E5%8A%A9%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4/</guid><description>&lt;h2 id="项目概述"&gt;项目概述&lt;/h2&gt;
-&lt;p&gt;Offensive Security Workspace 是一个专为授权安全测试设计的 AI 辅助渗透测试工作空间。它将结构化的工作流程、丰富的漏洞检测技能库、可复用的知识库以及标准化的报告模板整合在一起，为安全研究人员提供一个高效、规范的测试环境。&lt;/p&gt;
-&lt;h3 id="核心理念"&gt;核心理念&lt;/h3&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AI on 9Insomnie</title><link>https://9insomnie.github.io/tags/ai/</link><description>Recent content in AI on 9Insomnie</description><generator>Hugo</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener"&gt;CC BY-NC 4.0&lt;/a&gt;</copyright><lastBuildDate>Fri, 17 Jul 2026 00:38:31 +0800</lastBuildDate><atom:link href="https://9insomnie.github.io/tags/ai/index.xml" rel="self" type="application/rss+xml"/><item><title>Building an AI-Assisted Penetration Testing Workspace: Why I Created It</title><link>https://9insomnie.github.io/posts/2026/07/building-an-ai-assisted-penetration-testing-workspace-why-i-created-it/</link><pubDate>Thu, 16 Jul 2026 10:00:00 +0800</pubDate><guid>https://9insomnie.github.io/posts/2026/07/building-an-ai-assisted-penetration-testing-workspace-why-i-created-it/</guid><description>&lt;h2 id="the-problem-with-chaotic-pen-testing"&gt;The Problem with Chaotic Pen Testing&lt;/h2&gt;
+&lt;p&gt;Over the years, I&amp;rsquo;ve worked on dozens of penetration testing engagements, and one pattern kept bothering me: every time I started a new target, I was reinventing the wheel.&lt;/p&gt;
+&lt;p&gt;The typical workflow looked something like this:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;授权优先&lt;/strong&gt;：所有测试必须在明确的授权范围内进行&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;证据驱动&lt;/strong&gt;：每个漏洞发现都需要可复现的证明&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;知识复用&lt;/strong&gt;：跨目标的经验和攻击模式可以积累和复用&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;规范输出&lt;/strong&gt;：标准化的漏洞报告格式确保专业交付&lt;/li&gt;
+&lt;li&gt;Run a few tools, dump the output into a folder&lt;/li&gt;
+&lt;li&gt;Scribble notes in random text files&lt;/li&gt;
+&lt;li&gt;Find a vulnerability, write a quick PoC, forget where I saved it&lt;/li&gt;
+&lt;li&gt;Start the next target, do it all over again&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id="项目结构"&gt;项目结构&lt;/h2&gt;
-&lt;pre tabindex="0"&gt;&lt;code&gt;Offensive Security/
-├── AGENTS.md # 顶层智能体指令
-├── README.md # 工作空间概览和快速入门
-├── HUNT_INDEX.md # 漏洞类别到检测技能的快速映射
-├── .gitignore # 排除敏感信息和证据
-├── workflows/ # 分步工作流程文档
-│ ├── new_target.md # 新目标初始化流程
-│ ├── parallel_recon.md # 并行侦察流程
-│ ├── hunt_dispatch.md # 漏洞检测调度流程
-│ └── collect_evidence.md # 证据收集流程
-├── kb/ # 跨目标知识库（可复用）
-│ ├── stacks/ # 按技术栈分类的知识
-│ ├── patterns/ # 已验证的漏洞模式和 PoC
-│ └── targets/ # 完成的目标分析报告
-├── targets/ # 每个测试任务的工作目录
-├── tools/ # 自定义脚本、漏洞利用工具、辅助工具
-├── payloads/ # 可复用的 payload 集合
-├── templates/ # 报告和发现模板
-└── evidence/ # 截图、捕获数据、原始输出
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id="核心功能"&gt;核心功能&lt;/h2&gt;
-&lt;h3 id="1-结构化工作流程"&gt;1. 结构化工作流程&lt;/h3&gt;
-&lt;p&gt;项目提供四个核心工作流程，确保测试过程的系统性和完整性：&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;The knowledge I gained from one engagement rarely carried over to the next. Attack patterns I&amp;rsquo;d figured out on a Spring Boot app were lost when I moved to a Laravel target. PoCs I&amp;rsquo;d crafted sat forgotten in some archive folder. Every recon started from scratch.&lt;/p&gt;</description></item></channel></rss>
