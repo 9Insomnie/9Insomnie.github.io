@@ -1,5 +1,5 @@
 baseurl            = "https://9insomnie.github.io"
-title              = "9Insomnie"
+title              = "N0irx"
 languageCode       = "en-us"
 theme              = "hello-friend-ng"
 
@@ -22,7 +22,7 @@ copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_
   disableReadOtherPosts = false
 
   description = "A blog about technology and coding"
-  keywords = "homepage, blog, 9Insomnie, technology, programming"
+  keywords = "homepage, blog, N0irx, technology, programming"
 
   images = ["/preview.png"]
   contentTypeName = "posts"

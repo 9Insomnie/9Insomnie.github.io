@@ -2,10 +2,10 @@
 title = "About Me"
 date = "2025-01-06"
 [ author ]
-  name = "9Insomnie"
+  name = "N0irx"
 +++
 
-Hi! I'm **9Insomnie**, a security researcher and technology enthusiast passionate about cybersecurity.
+Hi! I'm **N0irx**, a security researcher and technology enthusiast passionate about cybersecurity.
 
 ## About Me
 
@@ -31,6 +31,6 @@ I specialize in cybersecurity research, focusing on exploring security vulnerabi
 Feel free to reach out if you'd like to discuss cybersecurity, collaborate on projects, or just have a chat about security topics:
 
 - 📧 Email: [lruri_11@163.com](mailto:lruri_11@163.com)
-- 💻 GitHub: [9Insomnie](https://github.com/9Insomnie)
+- 💻 GitHub: [N0irx](https://github.com/9Insomnie)
 
 "The game is afoot." — Sherlock Holmes 🕵️
