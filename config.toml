@@ -20,11 +20,12 @@ copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_
   homeSubtitle = "A blog about technology and coding"
 
   disableReadOtherPosts = false
+  enableSharingButtons = true
 
   description = "A blog about technology and coding"
-  keywords = "homepage, blog, N0irx, technology, programming"
+  keywords = "homepage, blog, N0irx, security, technology, programming, penetration testing"
 
-  images = ["/preview.png"]
+  images = ["/images/preview.png"]
   contentTypeName = "posts"
   enableThemeToggle = true
 
@@ -71,3 +72,7 @@ copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_
     identifier = "blog"
     name       = "Blog"
     url        = "posts/"
+  [[menu.main]]
+    identifier = "archive"
+    name       = "Archive"
+    url        = "archive/"
