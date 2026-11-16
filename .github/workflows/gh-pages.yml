@@ -37,7 +37,8 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "latest"
+          # v0.170.0 removed the LibSass transpiler still used by this theme.
+          hugo-version: "0.169.0"
           extended: true
 
       # Ugly hot-patch to enforce dark theme as standard
