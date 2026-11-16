@@ -1,4 +1,280 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on N0irx</title><link>https://9insomnie.github.io/posts/</link><description>Recent content in Posts on N0irx</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener"&gt;CC BY-NC 4.0&lt;/a&gt;</copyright><lastBuildDate>Thu, 16 Jul 2026 10:00:00 +0800</lastBuildDate><atom:link href="https://9insomnie.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Building an AI-Assisted Penetration Testing Workspace: Why I Created It</title><link>https://9insomnie.github.io/posts/2026/07/building-an-ai-assisted-penetration-testing-workspace-why-i-created-it/</link><pubDate>Thu, 16 Jul 2026 10:00:00 +0800</pubDate><guid>https://9insomnie.github.io/posts/2026/07/building-an-ai-assisted-penetration-testing-workspace-why-i-created-it/</guid><description>&lt;h2 id="the-problem-with-chaotic-pen-testing"&gt;The Problem with Chaotic Pen Testing&lt;/h2&gt;
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on N0irx</title><link>https://9insomnie.github.io/posts/</link><description>Recent content in Posts on N0irx</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener"&gt;CC BY-NC 4.0&lt;/a&gt;</copyright><lastBuildDate>Mon, 16 Nov 2026 10:00:00 +0800</lastBuildDate><atom:link href="https://9insomnie.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>CVE-2026-114149：一个计数器错位如何变成 $10,000 MSRC 赏金</title><link>https://9insomnie.github.io/posts/2026/11/cve-2026-114149-aspnetcore-multipart-header-count-limit-bypass/</link><pubDate>Mon, 16 Nov 2026 10:00:00 +0800</pubDate><guid>https://9insomnie.github.io/posts/2026/11/cve-2026-114149-aspnetcore-multipart-header-count-limit-bypass/</guid><description>&lt;p&gt;2026 年 11 月 10 日，Microsoft 发布了 &lt;a href="https://github.com/dotnet/aspnetcore/security/advisories/GHSA-x33c-w48q-qrgc"&gt;CVE-2026-114149&lt;/a&gt;：一个影响 ASP.NET Core multipart 表单解析的拒绝服务漏洞。&lt;/p&gt;
+&lt;p&gt;这是我提交给 MSRC 的第一个获得赏金的漏洞。MSRC 将它评定为 &lt;strong&gt;Important / Denial of Service&lt;/strong&gt;，并在 .NET Bounty Program 下发放了 &lt;strong&gt;10,000 美元&lt;/strong&gt;赏金。公开安全公告给出的评级为 &lt;strong&gt;High，CVSS 3.1 评分 7.5&lt;/strong&gt;，漏洞类型为 &lt;strong&gt;CWE-770：缺少限制或节流的资源分配&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;漏洞本身并不复杂。真正有意思的地方在于：一个看起来完全合理的“头部数量限制”，因为使用了错误的计数单位，被重复头名彻底绕过了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文基于 Microsoft 已公开的安全公告与修复代码。为了便于理解，只展示能证明根因的最小样例，不提供面向生产目标的并发压测或攻击脚本。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="tldr"&gt;TL;DR&lt;/h2&gt;
+&lt;p&gt;ASP.NET Core 的 &lt;code&gt;MultipartReader&lt;/code&gt; 默认限制每个 multipart section 最多包含 16 行头部。旧实现却使用 &lt;code&gt;KeyValueAccumulator.KeyCount&lt;/code&gt; 检查限制，而 &lt;code&gt;KeyCount&lt;/code&gt; 统计的是&lt;strong&gt;不同的头名称&lt;/strong&gt;，不是实际的头部行数。&lt;/p&gt;
+&lt;p&gt;攻击者只要重复使用同一个头名，就可以让解析器接收远超限制的头部行，并保留每一个值。在我的测试中：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;指标&lt;/th&gt;
+&lt;th style="text-align: right"&gt;实测结果&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;请求大小&lt;/td&gt;
+&lt;td style="text-align: right"&gt;25,675,697 bytes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;multipart sections&lt;/td&gt;
+&lt;td style="text-align: right"&gt;1,024&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;每个 section 的重复头&lt;/td&gt;
+&lt;td style="text-align: right"&gt;5,000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;被保留的重复值总数&lt;/td&gt;
+&lt;td style="text-align: right"&gt;5,120,000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;累计托管内存分配&lt;/td&gt;
+&lt;td style="text-align: right"&gt;2,431,139,200 bytes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;峰值工作集&lt;/td&gt;
+&lt;td style="text-align: right"&gt;238,432,256 bytes&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;累计分配放大&lt;/td&gt;
+&lt;td style="text-align: right"&gt;94.7×&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;峰值工作集放大&lt;/td&gt;
+&lt;td style="text-align: right"&gt;9.3×&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;请求不需要认证，并且保持在 Kestrel 默认 30 MB 请求体限制以内。&lt;/p&gt;</description><content type="html"><![CDATA[<p>2026 年 11 月 10 日，Microsoft 发布了 <a href="https://github.com/dotnet/aspnetcore/security/advisories/GHSA-x33c-w48q-qrgc">CVE-2026-114149</a>：一个影响 ASP.NET Core multipart 表单解析的拒绝服务漏洞。</p>
+<p>这是我提交给 MSRC 的第一个获得赏金的漏洞。MSRC 将它评定为 <strong>Important / Denial of Service</strong>，并在 .NET Bounty Program 下发放了 <strong>10,000 美元</strong>赏金。公开安全公告给出的评级为 <strong>High，CVSS 3.1 评分 7.5</strong>，漏洞类型为 <strong>CWE-770：缺少限制或节流的资源分配</strong>。</p>
+<p>漏洞本身并不复杂。真正有意思的地方在于：一个看起来完全合理的“头部数量限制”，因为使用了错误的计数单位，被重复头名彻底绕过了。</p>
+<blockquote>
+<p>本文基于 Microsoft 已公开的安全公告与修复代码。为了便于理解，只展示能证明根因的最小样例，不提供面向生产目标的并发压测或攻击脚本。</p>
+</blockquote>
+<h2 id="tldr">TL;DR</h2>
+<p>ASP.NET Core 的 <code>MultipartReader</code> 默认限制每个 multipart section 最多包含 16 行头部。旧实现却使用 <code>KeyValueAccumulator.KeyCount</code> 检查限制，而 <code>KeyCount</code> 统计的是<strong>不同的头名称</strong>，不是实际的头部行数。</p>
+<p>攻击者只要重复使用同一个头名，就可以让解析器接收远超限制的头部行，并保留每一个值。在我的测试中：</p>
+<table>
+	<thead>
+			<tr>
+					<th>指标</th>
+					<th style="text-align: right">实测结果</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>请求大小</td>
+					<td style="text-align: right">25,675,697 bytes</td>
+			</tr>
+			<tr>
+					<td>multipart sections</td>
+					<td style="text-align: right">1,024</td>
+			</tr>
+			<tr>
+					<td>每个 section 的重复头</td>
+					<td style="text-align: right">5,000</td>
+			</tr>
+			<tr>
+					<td>被保留的重复值总数</td>
+					<td style="text-align: right">5,120,000</td>
+			</tr>
+			<tr>
+					<td>累计托管内存分配</td>
+					<td style="text-align: right">2,431,139,200 bytes</td>
+			</tr>
+			<tr>
+					<td>峰值工作集</td>
+					<td style="text-align: right">238,432,256 bytes</td>
+			</tr>
+			<tr>
+					<td>累计分配放大</td>
+					<td style="text-align: right">94.7×</td>
+			</tr>
+			<tr>
+					<td>峰值工作集放大</td>
+					<td style="text-align: right">9.3×</td>
+			</tr>
+	</tbody>
+</table>
+<p>请求不需要认证，并且保持在 Kestrel 默认 30 MB 请求体限制以内。</p>
+<h2 id="背景multipart-的限制到底在限制什么">背景：multipart 的限制到底在限制什么</h2>
+<p>处理文件上传或 <code>multipart/form-data</code> 请求时，ASP.NET Core 会把请求体拆成多个 section。每个 section 都有自己的头部，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#a61717;background-color:#e3d2d2">Content-Disposition: form-data; name=&#34;file&#34;; filename=&#34;demo.txt&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#a61717;background-color:#e3d2d2">Content-Type: text/plain
+</span></span></span></code></pre></div><p><code>MultipartReader.HeadersCountLimit</code>（通过 <code>FormOptions.MultipartHeadersCountLimit</code> 配置）用于限制每个 section 可以包含的头部数量，默认值是 16。它本应防止解析器在单个 section 中接收和保存过多头部。</p>
+<p>问题出在“数量”的定义上。</p>
+<p>旧版 <code>MultipartReader.ReadHeadersAsync</code> 的核心逻辑可以简化为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">var</span> accumulator = <span style="color:#6ab825;font-weight:bold">new</span> KeyValueAccumulator();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#999;font-style:italic">// 每读取一行 multipart header：</span>
+</span></span><span style="display:flex;"><span>accumulator.Append(name, <span style="color:#6ab825;font-weight:bold">value</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">if</span> (accumulator.KeyCount &gt; HeadersCountLimit)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#6ab825;font-weight:bold">throw</span> <span style="color:#6ab825;font-weight:bold">new</span> InvalidDataException(
+</span></span><span style="display:flex;"><span>        <span style="color:#ed9d13">$&#34;Multipart headers count limit {HeadersCountLimit} exceeded.&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>KeyValueAccumulator</code> 会把同名字段的多个值聚合在一起。因此：</p>
+<div class="highlight"><pre tabindex="0" style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>A: one
+</span></span><span style="display:flex;"><span>A: two
+</span></span><span style="display:flex;"><span>A: three
+</span></span></code></pre></div><p>解析器实际读取了 3 行头部，也保存了 3 个值，但 <code>KeyCount</code> 始终只有 1。</p>
+<p>换句话说，安全限制想约束的是 <strong>header lines / values</strong>，实现检查的却是 <strong>distinct header names</strong>。两者单位不同，重复头名便成了绕过条件。</p>
+<h2 id="最小根因验证">最小根因验证</h2>
+<p>下面的样例不会制造内存压力，只验证计数语义。在修复前，将限制设置为 2 后，包含 3 行头部的 section 仍然可以通过，因为它只有两个不同的头名：<code>Content-Disposition</code> 和 <code>A</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">System.Text</span>;
+</span></span><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">Microsoft.AspNetCore.WebUtilities</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">const</span> <span style="color:#6ab825;font-weight:bold">string</span> boundary = <span style="color:#ed9d13">&#34;demo-boundary&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">var</span> body =
+</span></span><span style="display:flex;"><span>    <span style="color:#ed9d13">$&#34;--{boundary}\r\n&#34;</span> +
+</span></span><span style="display:flex;"><span>    <span style="color:#ed9d13">&#34;Content-Disposition: form-data; name=\&#34;file\&#34;; filename=\&#34;x\&#34;\r\n&#34;</span> +
+</span></span><span style="display:flex;"><span>    <span style="color:#ed9d13">&#34;A: one\r\n&#34;</span> +
+</span></span><span style="display:flex;"><span>    <span style="color:#ed9d13">&#34;A: two\r\n&#34;</span> +
+</span></span><span style="display:flex;"><span>    <span style="color:#ed9d13">&#34;\r\n&#34;</span> +
+</span></span><span style="display:flex;"><span>    <span style="color:#ed9d13">&#34;\r\n&#34;</span> +
+</span></span><span style="display:flex;"><span>    <span style="color:#ed9d13">$&#34;--{boundary}--\r\n&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">await</span> <span style="color:#6ab825;font-weight:bold">using</span> <span style="color:#447fcf;text-decoration:underline">var</span> stream = <span style="color:#6ab825;font-weight:bold">new</span> MemoryStream(Encoding.UTF8.GetBytes(body));
+</span></span><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">var</span> reader = <span style="color:#6ab825;font-weight:bold">new</span> MultipartReader(boundary, stream)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    HeadersCountLimit = <span style="color:#3677a9">2</span>
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6ab825;font-weight:bold">var</span> section = <span style="color:#6ab825;font-weight:bold">await</span> reader.ReadNextSectionAsync();
+</span></span><span style="display:flex;"><span>Console.WriteLine(section <span style="color:#6ab825;font-weight:bold">is</span> not <span style="color:#6ab825;font-weight:bold">null</span>);
+</span></span></code></pre></div><p>修复前，这段代码能够解析成功；修复后，第三行头部会触发 <code>InvalidDataException</code>。</p>
+<p>为了排除其他解释，我还做了两组对照：</p>
+<ul>
+<li><code>HeadersCountLimit = 1</code> 时，<code>A + A</code> 在旧实现中通过，因为 <code>KeyCount == 1</code>；</li>
+<li>在同样的限制下，<code>A + B</code> 会在第二行被拒绝，因为不同键名让 <code>KeyCount</code> 变成 2。</li>
+</ul>
+<p>这组对照把问题收敛到了“重复键不会增加 <code>KeyCount</code>”，而不是请求体大小、Kestrel 配置或某个测试环境的偶发现象。</p>
+<h2 id="从逻辑错误到可量化的安全影响">从逻辑错误到可量化的安全影响</h2>
+<p>仅仅证明限制语义不一致，还不足以证明拒绝服务影响。接下来需要回答三个问题：</p>
+<ol>
+<li>攻击者是否能远程控制这些输入？</li>
+<li>超出的头部值是否真的会被保留和分配内存？</li>
+<li>资源消耗是否主要由这个缺陷造成，而不是 multipart 解析本身的正常开销？</li>
+</ol>
+<p>在 ASP.NET Core 的常见文件上传路径中，应用读取 <code>Request.Form</code>、绑定 <code>IFormFile</code>，或通过 <code>FormFeature</code> 解析表单时，都会进入相关 multipart 解析流程。攻击者不需要登录，只需要能够向对应端点发送 <code>multipart/form-data</code> 请求。</p>
+<p>重复值不仅会进入 section 的头部集合；对于文件 section，它们还会随 <code>FormFile.Headers</code> 被保留下来。于是，一个短小的重复头行会在字符串、集合扩容与聚合过程中产生明显高于线上的托管内存分配。</p>
+<p>我最终使用 1,024 个零字节文件 section，每个 section 放入 5,000 个同名短头部。需要特别说明的是，<code>MultipartHeadersCountLimit</code> 是<strong>按 section</strong>检查的：每个 section 都用 5,000 行去对比默认上限 16；5,120,000 是所有 section 的保留值总数，而不是把跨 section 的值错误地算到同一个计数器上。</p>
+<p>在 .NET 10.0.11 的端到端 Kestrel 测试中，一个约 25.7 MB 的请求产生了约 2.43 GB 累计托管分配，峰值工作集约 238 MB。修复正确的行计数后，请求会在单个 section 超过 16 行时立即终止，后续放大不再发生。</p>
+<h2 id="为什么这份报告能拿到赏金">为什么这份报告能拿到赏金</h2>
+<p>资源消耗并不自动等于安全漏洞。对这类报告，最难的部分通常不是造出一个很大的数字，而是证明<strong>安全影响可以归因于具体缺陷</strong>。</p>
+<p>这次报告具备几个关键条件：</p>
+<ul>
+<li><strong>具名限制被完整绕过</strong>：配置为 16，实际可以接收数千行同名头部；</li>
+<li><strong>默认配置可达</strong>：不需要关闭请求体限制或启用异常选项；</li>
+<li><strong>远程、无认证</strong>：常见 multipart 表单解析入口即可触发；</li>
+<li><strong>最小对照明确</strong>：<code>A + A</code> 与 <code>A + B</code> 只改变是否重复键名；</li>
+<li><strong>影响可量化</strong>：同时记录请求大小、累计分配、峰值工作集、保留值数量和耗时；</li>
+<li><strong>修复能消除影响</strong>：把计数从 distinct keys 改为 total values 后，请求会在达到限制时停止。</li>
+</ul>
+<p>这里最重要的经验是：不要只提交“这里的代码看起来不对”，也不要只提交“内存涨了很多”。一份容易被复核的报告，需要把<strong>根因、控制变量、攻击者输入、受影响资源和修复后的差异</strong>连成一条证据链。</p>
+<h2 id="官方修复">官方修复</h2>
+<p>Microsoft 的修复非常直接：将检查对象从 <code>KeyCount</code> 改为 <code>ValueCount</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-diff" data-lang="diff"><span style="display:flex;"><span><span style="color:#d22323">- if (accumulator.KeyCount &gt; HeadersCountLimit)
+</span></span></span><span style="display:flex;"><span><span style="color:#589819">+ if (accumulator.ValueCount &gt; HeadersCountLimit)
+</span></span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>      throw new InvalidDataException(
+</span></span><span style="display:flex;"><span>          $&#34;Multipart headers count limit {HeadersCountLimit} exceeded.&#34;);
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>同时，相关 API 文档被明确为“每个 multipart section 的头部<strong>行数</strong>限制”，同名头部需要分别计数，并增加了重复头名、大小写不同的同名头、零限制以及多 section 等回归测试。完整改动可查看官方提交：<a href="https://github.com/dotnet/aspnetcore/commit/a5569a02">Enforce multipart header line count limits</a>。</p>
+<h2 id="影响版本与升级建议">影响版本与升级建议</h2>
+<p>根据 <a href="https://github.com/dotnet/aspnetcore/security/advisories/GHSA-x33c-w48q-qrgc">Microsoft 官方公告</a>，修复版本如下：</p>
+<table>
+	<thead>
+			<tr>
+					<th>.NET / ASP.NET Core 分支</th>
+					<th>受影响版本</th>
+					<th>修复版本</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>8.0</td>
+					<td>至 8.0.33</td>
+					<td><strong>8.0.34</strong></td>
+			</tr>
+			<tr>
+					<td>9.0</td>
+					<td>至 9.0.22</td>
+					<td><strong>9.0.23</strong></td>
+			</tr>
+			<tr>
+					<td>10.0</td>
+					<td>至 10.0.14</td>
+					<td><strong>10.0.15</strong></td>
+			</tr>
+			<tr>
+					<td>11.0 Preview / RC</td>
+					<td>至 11.0.0-rc.3.26522.148</td>
+					<td><strong>11.0.0</strong></td>
+			</tr>
+	</tbody>
+</table>
+<p>受影响范围包括 ASP.NET Core Runtime 以及单独引用的 <code>Microsoft.AspNetCore.WebUtilities</code> 包，覆盖 Windows、Linux 和 macOS。</p>
+<p>升级时需要注意：</p>
+<ul>
+<li>framework-dependent 应用应安装对应的修复运行时，并重新部署应用；</li>
+<li>如果项目单独引用 <code>Microsoft.AspNetCore.WebUtilities</code>，需要更新包版本、重新构建并部署；</li>
+<li>self-contained 应用包含自己的运行时，只更新机器上的全局 Runtime 并不能替换应用内嵌版本；</li>
+<li>仅更新 SDK 或重启应用，也不会自动更新应用本地的独立包引用。</li>
+</ul>
+<h2 id="披露时间线">披露时间线</h2>
+<table>
+	<thead>
+			<tr>
+					<th>日期</th>
+					<th>事件</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>2026-09-01</td>
+					<td>向 MSRC 提交报告与两个最小验证项目，获得 VULN-218979 / Case 142474</td>
+			</tr>
+			<tr>
+					<td>2026-09-02</td>
+					<td>补充 Kestrel 端到端、并发阶梯和重复键根因对照证据</td>
+			</tr>
+			<tr>
+					<td>2026-10-01</td>
+					<td>Microsoft 工程团队确认报告行为</td>
+			</tr>
+			<tr>
+					<td>2026-10-02</td>
+					<td>MSRC 评定为 Important / DoS，发放 10,000 美元赏金</td>
+			</tr>
+			<tr>
+					<td>2026-10-28</td>
+					<td>MSRC 通知将分配 CVE-2026-114149，并计划在 11 月安全更新中修复</td>
+			</tr>
+			<tr>
+					<td>2026-11-10</td>
+					<td>官方安全公告与修复发布，公开致谢 <code>n0irx</code></td>
+			</tr>
+	</tbody>
+</table>
+<h2 id="一些复盘">一些复盘</h2>
+<p>这个漏洞的代码差异只有一行，但从“看到一行可疑代码”到“拿到赏金”，中间真正花时间的是证据建设。</p>
+<p>一开始最容易犯的错误，是把“不同键名数量”和“头部行数量”之间的差异直接称为漏洞。差异只是观察；只有当它允许不可信输入突破一个有明确安全目的的限制，并且能稳定造成可归因的资源影响时，它才成为一个完整的安全问题。</p>
+<p>另一个教训是，放大倍数必须有明确分母。累计分配、存活堆、工作集和请求大小不是同一种指标，不能混为一谈。我的报告分别记录了这些量，并使用小规模根因测试与端到端资源测试承担不同的证明任务：前者证明为什么会绕过，后者证明绕过之后会发生什么。</p>
+<p>最后，赏金不是终点。直到 11 月 10 日安全更新正式发布之前，这个案例一直处于协调披露流程中。先让修复覆盖用户，再公开技术细节，才是一次完整的漏洞研究。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://github.com/dotnet/aspnetcore/security/advisories/GHSA-x33c-w48q-qrgc">Microsoft Security Advisory: CVE-2026-114149</a></li>
+<li><a href="https://github.com/dotnet/announcements/issues/511">.NET Announcement: CVE-2026-114149</a></li>
+<li><a href="https://github.com/dotnet/aspnetcore/commit/a5569a02">官方修复提交：Enforce multipart header line count limits</a></li>
+<li><a href="https://cwe.mitre.org/data/definitions/770.html">CWE-770: Allocation of Resources Without Limits or Throttling</a></li>
+</ul>
+]]></content></item><item><title>Building an AI-Assisted Penetration Testing Workspace: Why I Created It</title><link>https://9insomnie.github.io/posts/2026/07/building-an-ai-assisted-penetration-testing-workspace-why-i-created-it/</link><pubDate>Thu, 16 Jul 2026 10:00:00 +0800</pubDate><guid>https://9insomnie.github.io/posts/2026/07/building-an-ai-assisted-penetration-testing-workspace-why-i-created-it/</guid><description>&lt;h2 id="the-problem-with-chaotic-pen-testing"&gt;The Problem with Chaotic Pen Testing&lt;/h2&gt;
 &lt;p&gt;Over the years, I&amp;rsquo;ve worked on dozens of penetration testing engagements, and one pattern kept bothering me: every time I started a new target, I was reinventing the wheel.&lt;/p&gt;
 &lt;p&gt;The typical workflow looked something like this:&lt;/p&gt;
 &lt;ul&gt;
